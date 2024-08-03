@@ -12,8 +12,11 @@ import { db } from "@/app/config/firebase";
 import { useRouter } from "next/navigation";
 import { resetCart } from "@/app/store/slice/ProductSlice";
 import { getFromLocalStorage } from "@/app/utills/LocalStorageUtills";
+import { useTranslation } from "react-i18next";
+import "../../../i18n";
 
 const ViewMeals: React.FC = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const router = useRouter();
   const [groupedByMeal, setGroupedByMeal] = useState<Record<string, ProductsModels[]>>({});
@@ -40,7 +43,7 @@ const ViewMeals: React.FC = () => {
       });
       router.push("/online_ordering/thankyou");
       dispatch(resetCart());
-      localStorage.clear()
+      localStorage.clear();
     } catch (error) {
       console.error("An error occurred", error);
     }
@@ -82,24 +85,24 @@ const ViewMeals: React.FC = () => {
           <div className="pt-5">
             <input type="checkbox" name="Tomorrow" id="Tomorrow" checked={selectedOptions.Tomorrow} onChange={handleCheckboxChange} />
             <label className="pl-2" htmlFor="Tomorrow">
-              Tomorrow
+              {t("Tomorrow")}
             </label>
           </div>
           <div className="pt-5">
             <input type="checkbox" name="Week" id="Week" checked={selectedOptions.Week} onChange={handleCheckboxChange} />
             <label className="pl-2" htmlFor="Week">
-              The Rest of this Week
+              {t("TheRestofthisWeek")}
             </label>
           </div>
           <div className="pt-5">
             <input type="checkbox" name="Staying" id="Staying" checked={selectedOptions.Staying} onChange={handleCheckboxChange} />
             <label className="pl-2" htmlFor="Staying">
-              All My Staying
+              {t("AllMyStaying")}
             </label>
           </div>
 
           <button className="bg-[#2F52A0] py-4 w-full text-white font-semibold text-xl mt-10" onClick={handleSubmit}>
-            Approve and Send It
+            {t("ApproveandSendIt")}
           </button>
         </div>
       </div>

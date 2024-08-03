@@ -188,11 +188,11 @@ const SwiperSlider: React.FC<SwiperSliderProps> = ({ params }) => {
             <div className="bg-[#2f52a0] p-4 mt-5">
               {allCategoriesSelected() ? (
                 <Link href={"/online_ordering/summery"}>
-                  <button className="w-full  text-center">Order</button>
+                  <button className="w-full  text-center">{t("Order")}</button>
                 </Link>
               ) : (
                 <Link href={"/online_ordering/category"}>
-                  <button className="w-full  text-center">Next</button>
+                  <button className="w-full  text-center">{t("Next")}</button>
                 </Link>
               )}
             </div>

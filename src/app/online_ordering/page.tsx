@@ -10,8 +10,11 @@ import SearchComponent from "../components/SearchComponent/SearchComponent";
 import { setInLocalStorage } from "../utills/LocalStorageUtills";
 // import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { useTranslation } from "react-i18next";
+import "../../i18n";
 
 const OnlineOrdering: React.FC = () => {
+  const { t } = useTranslation();
   const router = useRouter();
   const [selectPosition, setSelectPosition] = useState<any>(null);
   const [showinput, setshowinput] = useState(false);
@@ -19,7 +22,7 @@ const OnlineOrdering: React.FC = () => {
   let body = {
     Name: inputvalue,
     location: selectPosition,
-  }
+  };
   setInLocalStorage("location", body || null);
   console.log(selectPosition, "tiridd");
 
@@ -40,20 +43,18 @@ const OnlineOrdering: React.FC = () => {
             <Image width={200} height={100} src={onloadImg} alt="onload img" />
           </div>
           <div className="">
-            <h1 className="text-[#fff] text-4xl font-bold">
-              So Where Are <br /> you at?
-            </h1>
+            <h1 className="text-[#fff] text-4xl font-bold">{t("sowhere")}</h1>
           </div>
           <div className="text-center pt-14">
             <div className="text-center flex justify-center">
               <Image width={100} height={100} src={alert_img} alt="onload img" />
             </div>
             <div className="bg-[#ded4c4] text-center py-4">
-              <button className="text-2xl text-[#3E3939] font-semibold">Auto-Complete SelectBox</button>
+              <button className="text-2xl text-[#3E3939] font-semibold">{t("AutoComplete")}</button>
               <SearchComponent selectPosition={selectPosition} setSelectPosition={setSelectPosition} />
             </div>
             <p role="button" className="text-[#5663FF] text-xl font-bold text-center pt-3" onClick={() => setshowinput(!showinput)}>
-              I Rather use my Name
+              {t("IRatherusemyName")}
             </p>
             {showinput && <input type="text" placeholder="Enter the Name" className="p-3 outline-none border border-[#ccc] rounded-lg mt-2" onChange={(e) => setinputvalue(e.target.value)} />}
           </div>
@@ -62,7 +63,7 @@ const OnlineOrdering: React.FC = () => {
           </div>
           {/* <Link href={"/online_ordering/category"}> */}
           <button className="bg-[#2F52A0] py-4 w-full text-white font-semibold text-xl" onClick={handleRoute}>
-            Continue
+            {t("Continue")}
           </button>
           {/* </Link> */}
         </div>
