@@ -10,7 +10,7 @@ import { RootState } from "@/app/store/Store";
 import CheckIcon from "@mui/icons-material/Check";
 import Loading from "@/app/components/loading/Loading";
 import { useTranslation } from "react-i18next";
-import { setInLocalStorage } from "@/app/utills/LocalStorageUtills";
+import { getFromLocalStorage, setInLocalStorage } from "@/app/utills/LocalStorageUtills";
 import { useRouter } from "next/navigation";
 import onloadImg from "../../../assests/white_logo.png";
 
@@ -21,7 +21,7 @@ const Category: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const cart = useSelector((state: RootState) => state.Product.cart);
   const products = useSelector((state: RootState) => state.Product.products);
-  const savedLanguage = localStorage.getItem("lang") || "en";
+  const savedLanguage = getFromLocalStorage("lang") || "en";
 
   const mealTypeMapping: { [key: string]: string } = {
     "ארוחת בוקר": "breakfast",
