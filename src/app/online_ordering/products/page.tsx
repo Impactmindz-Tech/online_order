@@ -3,9 +3,8 @@ import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import onloadImg from "../../../assests/white_logo.png";
 import Image from "next/image";
-import { Pagination } from "swiper/modules";
+import { Navigation, Pagination } from "swiper/modules";
 import "swiper/css/pagination";
-import CategoryModels from "@/app/modal/CategoryModels";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/app/config/firebase";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,8 +15,10 @@ import { ProductsModels } from "@/app/modal/ProductModels";
 import Link from "next/link";
 import Loading from "@/app/components/loading/Loading";
 import { useTranslation } from "react-i18next";
+import "swiper/css/navigation";
 import { getFromLocalStorage, setInLocalStorage } from "@/app/utills/LocalStorageUtills";
 import "../../../i18n";
+import "swiper/css";
 
 interface TranslatedCategory {
   Name: Record<string, string>;
@@ -149,38 +150,40 @@ const SwiperSlider: React.FC<SwiperSliderProps> = ({ params }) => {
             <Image width={200} height={100} src={onloadImg} alt="onload img" />
           </div>
 
-          <Swiper autoHeight={true} modules={[Pagination]} pagination={{ clickable: true }} slidesPerView={1} onSwiper={(swiperInstance) => setSwiper(swiperInstance)} onSlideChange={handleSlideChange}>
+          <Swiper autoHeight={true} modules={[Pagination, Navigation]} navigation={true} pagination={{ clickable: true }} slidesPerView={1} onSwiper={(swiperInstance) => setSwiper(swiperInstance)} onSlideChange={handleSlideChange}>
             {category
               ?.filter((cat) => cat?.Category == getFromLocalStorage("categoryProduct"))
               .map((item) => {
                 return (
-                  <SwiperSlide key={`${item?.id}-cat`}>
-                    <div className="text-center mt-10">
-                      <h1 className="text-white text-4xl font-semibold">{item?.Name}</h1>
-                      <p className="text-white">{t("choose")}</p>
-                      <div className="flex flex-wrap gap-3 pt-14">
-                        {product
-                          ?.filter((pro: ProductsModels) => pro.category == item?.Name)
-                          .map((prodctItem: ProductsModels) => {
-                            const mealType: MealType = prodctItem.meal.Name?.toLowerCase() as MealType;
+                  <div className="mt-14">
+                    <SwiperSlide key={`${item?.id}-cat`}>
+                      <div className="text-center mt-10">
+                        <h1 className="text-white text-4xl font-semibold">{item?.Name}</h1>
+                        <p className="text-white">{t("choose")}</p>
+                        <div className="flex flex-wrap gap-3">
+                          {product
+                            ?.filter((pro: ProductsModels) => pro.category == item?.Name)
+                            .map((prodctItem: ProductsModels) => {
+                              const mealType: MealType = prodctItem.meal.Name?.toLowerCase() as MealType;
 
-                            const isActive = cart[mealType]?.some((cartItem: ProductsModels) => cartItem.id == prodctItem.id) ?? false;
+                              const isActive = cart[mealType]?.some((cartItem: ProductsModels) => cartItem.id == prodctItem.id) ?? false;
 
-                            return (
-                              <div key={`${prodctItem?.id}-pro`} className={`flex flex-col w-[48%] cursor-pointer relative`} onClick={() => handleAddToCart(prodctItem)}>
-                                {isActive && (
-                                  <div className="w-full h-full bg-[#9efeb98a] absolute flex items-center justify-center">
-                                    <CheckIcon sx={{ width: "100px", fontSize: "80px", fill: "white" }} />
-                                  </div>
-                                )}
-                                <Image width={349} height={50} className="w-[349px] h-[132px] object-cover" src={prodctItem?.ImageUrl} alt="" />
-                                <h1 className="text-black text-xl mt-4 font-semibold">{prodctItem?.Name}</h1>
-                              </div>
-                            );
-                          })}
+                              return (
+                                <div key={`${prodctItem?.id}-pro`} className={`flex flex-col w-[48%] cursor-pointer relative`} onClick={() => handleAddToCart(prodctItem)}>
+                                  {isActive && (
+                                    <div className="w-full h-full bg-[#9efeb98a] absolute flex items-center justify-center">
+                                      <CheckIcon sx={{ width: "100px", fontSize: "80px", fill: "white" }} />
+                                    </div>
+                                  )}
+                                  <Image width={349} height={50} className="w-[349px] h-[132px] object-cover" src={prodctItem?.ImageUrl} alt="" />
+                                  <h1 className="text-black text-xl mt-4 font-semibold">{prodctItem?.Name}</h1>
+                                </div>
+                              );
+                            })}
+                        </div>
                       </div>
-                    </div>
-                  </SwiperSlide>
+                    </SwiperSlide>
+                  </div>
                 );
               })}
           </Swiper>

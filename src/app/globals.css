@@ -69,3 +69,13 @@ body {
   position: absolute !important;
   bottom: unset !important;
 }
+
+.swiper-button-next {
+  bottom: 90px !important;
+  top: unset !important;
+}
+
+.swiper-button-prev {
+  bottom: 90px !important;
+  top: unset !important;
+}
