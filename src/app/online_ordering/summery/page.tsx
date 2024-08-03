@@ -56,7 +56,7 @@ const ViewMeals: React.FC = () => {
           <Image width={200} height={100} src={onloadImg} alt="onload img" />
         </div>
         <div className="">
-          <button className="text-[#fff] bg-[#ded4c4] p-3 rounded-xl font-bold">Back</button>
+         <Link href={"/online_ordering/category"}> <button className="text-[#fff] bg-[#ded4c4] p-3 rounded-xl font-bold">Back</button></Link>
         </div>
 
         {/* Render meals grouped by type */}
