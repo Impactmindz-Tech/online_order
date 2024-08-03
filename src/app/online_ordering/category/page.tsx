@@ -13,6 +13,7 @@ import { useTranslation } from "react-i18next";
 import { getFromLocalStorage, setInLocalStorage } from "@/app/utills/LocalStorageUtills";
 import { useRouter } from "next/navigation";
 import onloadImg from "../../../assests/white_logo.png";
+import Link from "next/link";
 
 const Category: React.FC = () => {
   const router = useRouter();
@@ -106,7 +107,7 @@ const Category: React.FC = () => {
               <Image width={200} height={100} src={onloadImg} alt="onload img" />
             </div>
             <div>
-              <button className="text-[#fff] bg-[#ded4c4] p-3 rounded-xl font-bold">{t("Back")}</button>
+             <Link href={"/online_ordering"}><button className="text-[#fff] bg-[#ded4c4] p-3 rounded-xl font-bold">{t("Back")}</button></Link>
             </div>
             {categories?.map((item) => {
               const mealType = item.id;
