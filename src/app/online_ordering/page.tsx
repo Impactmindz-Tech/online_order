@@ -24,14 +24,12 @@ const OnlineOrdering: React.FC = () => {
     location: selectPosition,
   };
   setInLocalStorage("location", body || null);
-  console.log(selectPosition, "tiridd");
 
   const handleRoute = () => {
-    if (selectPosition) {
+    if (selectPosition || inputvalue.trim() !== "") {
       router.push("/online_ordering/category");
     } else {
-      // toast.error("Please Select Location");
-      alert("Please Select Location");
+      alert("Please select a location or enter your name");
     }
   };
 
