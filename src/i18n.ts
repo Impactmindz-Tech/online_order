@@ -1,7 +1,8 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
+import { getFromLocalStorage } from "./app/utills/LocalStorageUtills";
 
-const savedLanguage = localStorage.getItem("lang") || "en";
+const savedLanguage = getFromLocalStorage("lang") || "en";
 
 i18n.use(initReactI18next).init({
   resources: {

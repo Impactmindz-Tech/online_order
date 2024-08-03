@@ -16,7 +16,7 @@ import { ProductsModels } from "@/app/modal/ProductModels";
 import Link from "next/link";
 import Loading from "@/app/components/loading/Loading";
 import { useTranslation } from "react-i18next";
-import { getFromLocalStorage } from "@/app/utills/LocalStorageUtills";
+import { getFromLocalStorage, setInLocalStorage } from "@/app/utills/LocalStorageUtills";
 import "../../../i18n";
 
 interface TranslatedCategory {
@@ -50,7 +50,7 @@ const SwiperSlider: React.FC<SwiperSliderProps> = ({ params }) => {
   const [isLastSlide, setIsLastSlide] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const savedLanguage: any = localStorage.getItem("lang") || "en";
+  const savedLanguage: any = getFromLocalStorage("lang") || "en";
 
   const fetchCategory = async () => {
     setLoading(true);
@@ -113,7 +113,7 @@ const SwiperSlider: React.FC<SwiperSliderProps> = ({ params }) => {
         ...prev,
         [product.category]: true,
       };
-      localStorage.setItem("categorySelection", JSON.stringify(updatedSelection));
+      setInLocalStorage("categorySelection", JSON.stringify(updatedSelection));
       return updatedSelection;
     });
   };
@@ -134,7 +134,7 @@ const SwiperSlider: React.FC<SwiperSliderProps> = ({ params }) => {
   useEffect(() => {
     fetchCategory();
     fetchProduct();
-    const storedSelection = localStorage.getItem("categorySelection");
+    const storedSelection = getFromLocalStorage("categorySelection");
     if (storedSelection) {
       setCategorySelection(JSON.parse(storedSelection));
     }

@@ -2,7 +2,7 @@
 import React  from "react";
 import { useTranslation } from "react-i18next";
 import "../../i18n";
-import { setInLocalStorage } from "../utills/LocalStorageUtills";
+import { getFromLocalStorage, removeFromLocalStorage, setInLocalStorage } from "../utills/LocalStorageUtills";
 import { useEffect } from "react";
 const Multilangage: React.FC = () => {
   const { t, i18n } = useTranslation();
@@ -10,14 +10,14 @@ const Multilangage: React.FC = () => {
   // TypeScript type for the event
   const changeLanguage = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedLanguage = e.target.value;
-    localStorage.setItem('lang', selectedLanguage); // Store the selected language in localStorage
+    setInLocalStorage('lang', selectedLanguage); // Store the selected language in localStorage
     i18n.changeLanguage(selectedLanguage); // Change the language in i18n
   };
 
   useEffect(() => {
-    const savedLanguage = localStorage.getItem('lang') || 'en';
+    const savedLanguage = getFromLocalStorage('lang') || 'en';
     i18n.changeLanguage(savedLanguage);
-    localStorage.clear()
+    localStorage.clear();
   }, []);
   return (
     <div className="absolute right-5 top-5 p-2 rounded-lg shadow-lg border border-gray-300">
