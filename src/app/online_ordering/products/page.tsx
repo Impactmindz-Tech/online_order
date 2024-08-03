@@ -18,7 +18,7 @@ import { useTranslation } from "react-i18next";
 import "swiper/css/navigation";
 import { getFromLocalStorage, setInLocalStorage } from "@/app/utills/LocalStorageUtills";
 import "../../../i18n";
-import "swiper/css";
+// import "swiper/css";
 
 interface TranslatedCategory {
   Name: Record<string, string>;
