@@ -155,7 +155,7 @@ const SwiperSlider: React.FC<SwiperSliderProps> = ({ params }) => {
               ?.filter((cat) => cat?.Category == getFromLocalStorage("categoryProduct"))
               .map((item) => {
                 return (
-                  <div className="mt-14">
+                  <div key={item?.id} className="mt-14">
                     <SwiperSlide key={`${item?.id}-cat`}>
                       <div className="text-center mt-10">
                         <h1 className="text-white text-4xl font-semibold">{item?.Name}</h1>
