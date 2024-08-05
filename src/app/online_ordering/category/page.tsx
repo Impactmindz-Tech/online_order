@@ -113,7 +113,10 @@ const Category: React.FC = () => {
         <div className="page_width h-full">
           <div className="h-full">
             <div className="flex justify-center h-full p-10">
-              <Image width={200} height={100} src={onloadImg} alt="onload img" />
+              <Link href={"/"}>
+                {" "}
+                <Image width={200} height={100} src={onloadImg} alt="onload img" />
+              </Link>
             </div>
             <div>
               <Link href={"/online_ordering"}>

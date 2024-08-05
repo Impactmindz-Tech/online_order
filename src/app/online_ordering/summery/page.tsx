@@ -71,7 +71,7 @@ const ViewMeals: React.FC = () => {
     <section className="main-bg"  >
       <div className="page_width h-full" data-aos="fade-down">
         <div className="flex justify-center h-full p-10" >
-          <Image width={200} height={100} src={onloadImg} alt="onload img" />
+        <Link href={"/"}>  <Image width={200} height={100} src={onloadImg} alt="onload img" /></Link>
         </div>
         <div className="" >
           <Link href={"/online_ordering/category"}>

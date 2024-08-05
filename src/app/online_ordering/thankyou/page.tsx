@@ -20,13 +20,15 @@ const Thankyou = () => {
     AOS.refresh();
   }, []);
 
-
   return (
     <section className="hero_section">
       <div className="page_width h-full">
         <div className="flex flex-col justify-between h-full" data-aos="fade-down">
           <div className="mt-4 h-full">
-            <Image className="mx-auto" width={200} height={1080} src={onloadImg} alt="onload img" />
+            <Link href={"/"}>
+              {" "}
+              <Image className="mx-auto" width={200} height={1080} src={onloadImg} alt="onload img" />
+            </Link>
             <div className="pt-10 h-full flex items-center justify-center sm:pt-4">
               <h1 className="text-[#2F52A0] text-4xl font-bold">
                 <Image className="mx-auto  sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5" width={200} height={1080} src={complete} alt="onload img" />

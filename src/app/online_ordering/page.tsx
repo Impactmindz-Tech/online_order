@@ -55,7 +55,7 @@ const OnlineOrdering: React.FC = () => {
       <div className="page_width">
         <div data-aos="fade-right">
           <div className="flex justify-center h-full p-10 sm:p-4">
-            <Image width={200} height={100} src={onloadImg} alt="onload img" />
+          <Link href={"/"}>  <Image width={200} height={100} src={onloadImg} alt="onload img" /></Link>
           </div>
 
           <div className="" data-aos="fade-down">

@@ -22,7 +22,9 @@ const Onload = () => {
       <div className="page_width h-full" data-aos="fade-down">
         <div className="flex flex-col justify-between h-full pb-2">
           <div className="mt-4">
-            <Image className="mx-auto sm:m-0 sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5" width={200} height={1080} src={onloadImg} alt="onload img" />
+            <Link href={"/"}>
+              <Image className="mx-auto sm:m-0 sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5" width={200} height={1080} src={onloadImg} alt="onload img" />
+            </Link>
             <div className="pt-10">
               <h1 className="text-[#2F52A0] text-4xl font-bold titleHeading">{t("welcomeHeading")}</h1>
             </div>

@@ -13,8 +13,8 @@ import CheckIcon from "@mui/icons-material/Check";
 import { RootState } from "@/app/store/Store";
 import { ProductsModels } from "@/app/modal/ProductModels";
 import Link from "next/link";
-import AOS from 'aos';
-import 'aos/dist/aos.css';
+import AOS from "aos";
+import "aos/dist/aos.css";
 import Loading from "@/app/components/loading/Loading";
 import { useTranslation } from "react-i18next";
 import "swiper/css/navigation";
@@ -155,7 +155,10 @@ const SwiperSlider: React.FC<SwiperSliderProps> = ({ params }) => {
       <section className="main-bg">
         <div className="page_width h-full">
           <div className="flex justify-center h-full p-10">
-            <Image width={200} height={100} src={onloadImg} alt="onload img" />
+            <Link href={"/"}>
+              {" "}
+              <Image width={200} height={100} src={onloadImg} alt="onload img" />
+            </Link>
           </div>
 
           <Swiper autoHeight={true} modules={[Pagination, Navigation]} navigation={true} pagination={{ clickable: true }} slidesPerView={1} onSwiper={(swiperInstance) => setSwiper(swiperInstance)} onSlideChange={handleSlideChange}>
@@ -163,7 +166,7 @@ const SwiperSlider: React.FC<SwiperSliderProps> = ({ params }) => {
               ?.filter((cat) => cat?.Category == getFromLocalStorage("categoryProduct"))
               .map((item) => {
                 return (
-                  <div key={item?.id} className="mt-14" >
+                  <div key={item?.id} className="mt-14">
                     <SwiperSlide key={`${item?.id}-cat`}>
                       <div className="text-center mt-10">
                         <h1 className="text-white text-4xl font-semibold">{item?.Name}</h1>
