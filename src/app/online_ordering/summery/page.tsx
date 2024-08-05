@@ -118,21 +118,21 @@ const ViewMeals: React.FC = () => {
         <div className="pt-10 ">
           <h1 className={`bg-[#eadecf] p-3 pl-6 rounded-lg  ${lang ? "rtl" : ""}`}> {t("location")}</h1>
           <div className="pt-5">
-            <label className="custom-checkbox">
+            <label className={`custom-checkbox ${lang ? "flex justify-end" : ""}`}>
               <input type="checkbox" name="Tomorrow" id="Tomorrow" checked={selectedOptions.Tomorrow} onChange={handleCheckboxChange} />
               <span className="checkmark"></span>
               <span className={`label-text  ${lang ? "rtl" : ""}`}> {t("Tomorrow")}</span>
             </label>
           </div>
           <div className="pt-5">
-            <label className="custom-checkbox" htmlFor="Week">
+            <label className={`custom-checkbox ${lang ? "flex justify-end" : ""}`} htmlFor="Week">
               <input type="checkbox" name="Week" id="Week" checked={selectedOptions.Week} onChange={handleCheckboxChange} />
               <span className="checkmark"></span>
               <span className={`label-text  ${lang ? "rtl" : ""}`}> {t("TheRestofthisWeek")}</span>
             </label>
           </div>
           <div className="pt-5">
-            <label className="custom-checkbox" htmlFor="Staying">
+            <label className={`custom-checkbox ${lang ? "flex justify-end" : ""}`} htmlFor="Staying">
               <input type="checkbox" name="Staying" id="Staying" checked={selectedOptions.Staying} onChange={handleCheckboxChange} />
               <span className="checkmark"></span>
               <span className={`label-text  ${lang ? "rtl" : ""}`}> {t("AllMyStaying")}</span>
