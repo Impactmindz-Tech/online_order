@@ -160,7 +160,7 @@ const SwiperSlider: React.FC<SwiperSliderProps> = ({ params }) => {
                       <div className="text-center mt-10">
                         <h1 className="text-white text-4xl font-semibold">{item?.Name}</h1>
                         <p className="text-white">{t("choose")}</p>
-                        <div className="flex flex-wrap gap-3">
+                        <div className="flex flex-wrap gap-3  sm:grid sm:grid-cols-2 mt-5">
                           {product
                             ?.filter((pro: ProductsModels) => pro.category == item?.Name)
                             .map((prodctItem: ProductsModels) => {
@@ -169,15 +169,20 @@ const SwiperSlider: React.FC<SwiperSliderProps> = ({ params }) => {
                               const isActive = cart[mealType]?.some((cartItem: ProductsModels) => cartItem.id == prodctItem.id) ?? false;
 
                               return (
-                                <div key={`${prodctItem?.id}-pro`} className={`flex flex-col w-[48%] cursor-pointer relative`} onClick={() => handleAddToCart(prodctItem)}>
+                                  <div className={`flex flex-col w-[49%] cursor-pointer sm:w-[100%]`}  key={`${prodctItem?.id}-pro`}>
+                                <div className={`relative`} onClick={() => handleAddToCart(prodctItem)}>
+
+                                 
                                   {isActive && (
-                                    <div className="w-full h-full bg-[#9efeb98a] absolute flex items-center justify-center">
+                                    <div className="w-full h-full bg-[#9efeb98a] absolute flex items-center justify-center rounded-lg">
                                       <CheckIcon sx={{ width: "100px", fontSize: "80px", fill: "white" }} />
                                     </div>
                                   )}
-                                  <Image width={349} height={50} className="w-[349px] h-[132px] object-cover" src={prodctItem?.ImageUrl} alt="" />
-                                  <h1 className="text-black text-xl mt-4 font-semibold">{prodctItem?.Name}</h1>
+                                  <Image width={349} height={70} className="w-[389px] h-[232px] object-cover rounded-lg" src={prodctItem?.ImageUrl} alt="" priority />
                                 </div>
+                                  <h1 className="text-black text-xl mt-4 font-semibold sm:text-md sm:font-bold sm:word-break">{prodctItem?.Name}</h1>
+                                </div>
+
                               );
                             })}
                         </div>
@@ -188,14 +193,14 @@ const SwiperSlider: React.FC<SwiperSliderProps> = ({ params }) => {
               })}
           </Swiper>
           {isLastSlide && (
-            <div className="bg-[#2f52a0] p-4 mt-5">
+            <div className="bg-[#2f52a0] p-4 mt-5 rounded-xl">
               {allCategoriesSelected() ? (
                 <Link href={"/online_ordering/summery"}>
-                  <button className="w-full  text-center">{t("Order")}</button>
+                  <button className="w-full text-white text-center rounded-xl textShadow">{t("Order")}</button>
                 </Link>
               ) : (
                 <Link href={"/online_ordering/category"}>
-                  <button className="w-full  text-center">{t("Next")}</button>
+                  <button className="w-full text-white text-center rounded-xl textShadow">{t("Next")}</button>
                 </Link>
               )}
             </div>

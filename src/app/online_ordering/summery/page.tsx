@@ -56,7 +56,10 @@ const ViewMeals: React.FC = () => {
           <Image width={200} height={100} src={onloadImg} alt="onload img" />
         </div>
         <div className="">
-         <Link href={"/online_ordering/category"}> <button className="text-[#fff] bg-[#ded4c4] p-3 rounded-xl font-bold">Back</button></Link>
+          <Link href={"/online_ordering/category"}>
+            {" "}
+            <button className="text-[#fff] bg-[#ded4c4] p-3 rounded-xl font-bold"> {t("Back")}</button>
+          </Link>
         </div>
 
         {/* Render meals grouped by type */}
@@ -80,28 +83,31 @@ const ViewMeals: React.FC = () => {
           <p className="text-white">No meals available.</p>
         )}
 
-        <div className="pt-10">
-          <h1 className="bg-[#eadecf] p-3 rounded-lg">The Location</h1>
+        <div className="pt-10 ">
+          <h1 className="bg-[#eadecf] p-3 pl-6 rounded-lg"> {t("location")}</h1>
           <div className="pt-5">
-            <input type="checkbox" name="Tomorrow" id="Tomorrow" checked={selectedOptions.Tomorrow} onChange={handleCheckboxChange} />
-            <label className="pl-2" htmlFor="Tomorrow">
-              {t("Tomorrow")}
+            <label className="custom-checkbox">
+              <input type="checkbox" name="Tomorrow" id="Tomorrow" checked={selectedOptions.Tomorrow} onChange={handleCheckboxChange} />
+              <span className="checkmark"></span>
+              <span className="label-text"> {t("Tomorrow")}</span>
             </label>
           </div>
           <div className="pt-5">
-            <input type="checkbox" name="Week" id="Week" checked={selectedOptions.Week} onChange={handleCheckboxChange} />
-            <label className="pl-2" htmlFor="Week">
-              {t("TheRestofthisWeek")}
+            <label className="custom-checkbox" htmlFor="Week">
+              <input type="checkbox" name="Week" id="Week" checked={selectedOptions.Week} onChange={handleCheckboxChange} />
+              <span className="checkmark"></span>
+              <span className="label-text"> {t("TheRestofthisWeek")}</span>
             </label>
           </div>
           <div className="pt-5">
-            <input type="checkbox" name="Staying" id="Staying" checked={selectedOptions.Staying} onChange={handleCheckboxChange} />
-            <label className="pl-2" htmlFor="Staying">
-              {t("AllMyStaying")}
+            <label className="custom-checkbox" htmlFor="Staying">
+              <input type="checkbox" name="Staying" id="Staying" checked={selectedOptions.Staying} onChange={handleCheckboxChange} />
+              <span className="checkmark"></span>
+              <span className="label-text"> {t("AllMyStaying")}</span>
             </label>
           </div>
 
-          <button className="bg-[#2F52A0] py-4 w-full text-white font-semibold text-xl mt-10" onClick={handleSubmit}>
+          <button className="bg-[#5663ff] py-4 w-full text-white font-semibold text-xl mt-10 rounded-xl textShadow mb-2" onClick={handleSubmit}>
             {t("ApproveandSendIt")}
           </button>
         </div>
