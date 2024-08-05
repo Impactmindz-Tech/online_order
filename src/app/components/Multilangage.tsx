@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import "../../i18n";
 import { getFromLocalStorage, removeFromLocalStorage, setInLocalStorage } from "../utills/LocalStorageUtills";
@@ -9,7 +9,7 @@ import { resetCart } from "../store/slice/ProductSlice";
 const Multilangage: React.FC = () => {
   const dispatch = useDispatch();
   const { t, i18n } = useTranslation();
-
+  const [lang, setLang] = useState<string | null>(null);
   // TypeScript type for the event
   const changeLanguage = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedLanguage = e.target.value;
@@ -29,16 +29,22 @@ const Multilangage: React.FC = () => {
     localStorage.removeItem("cartDinner");
     localStorage.removeItem("categorySelection");
   }, []);
+
+  useEffect(() => {
+    if (localStorage?.getItem("lang")) {
+      setLang(localStorage.getItem("lang"));
+    }
+  }, []);
   return (
     <div className="absolute right-5 top-5 p-2 rounded-lg shadow-lg border border-gray-300 sm:right-2 sm:p-0 sm:top-4">
       <select value={i18n.language} onChange={changeLanguage} aria-label="Select Language" className="p-2 bg-gray-100 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-sm sm:p-1">
-        <option value="en" defaultChecked={localStorage?.getItem("lang") === '"en"' ? true : false}>
+        <option value="en" defaultChecked={lang === '"en"' ? true : false}>
           English
         </option>
-        <option value="he" defaultChecked={localStorage?.getItem("lang") === '"he"' ? true : false}>
+        <option value="he" defaultChecked={lang === '"he"' ? true : false}>
           עִברִית
         </option>
-        <option value="ru" defaultChecked={localStorage?.getItem("lang") === '"ru"' ? true : false}>
+        <option value="ru" defaultChecked={lang === '"ru"' ? true : false}>
           Русский
         </option>
       </select>
