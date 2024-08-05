@@ -95,10 +95,12 @@ const Category: React.FC = () => {
 
   useEffect(() => {
     AOS.init({
-      duration: 1000, // Duration of animations in milliseconds
-      once: true, // Trigger animation only once
+      duration: 1000,
+      once: true,
     });
+    AOS.refresh();
   }, []);
+
   const handleNavigate = (item: CategoryModels) => {
     setInLocalStorage("categoryProduct", item?.Name);
     router.push("/online_ordering/products");

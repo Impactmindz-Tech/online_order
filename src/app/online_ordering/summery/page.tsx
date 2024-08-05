@@ -56,11 +56,12 @@ const ViewMeals: React.FC = () => {
 
   useEffect(() => {
     AOS.init({
-      duration: 1000, // Duration of animations in milliseconds
-      once: true, // Trigger animation only once
+      duration: 1000,
+      once: true,
     });
-    AOS.refresh(); // Refresh to ensure animations are applied
+    AOS.refresh();
   }, []);
+
   useEffect(() => {
     if (localStorage?.getItem("lang")) {
       setLang(localStorage.getItem("lang"));

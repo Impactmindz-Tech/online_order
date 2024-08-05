@@ -7,8 +7,8 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { resetCart } from "../store/slice/ProductSlice";
 
-import AOS from "aos";
-import "aos/dist/aos.css";
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 const Multilangage: React.FC = () => {
   const dispatch = useDispatch();
@@ -42,10 +42,12 @@ const Multilangage: React.FC = () => {
 
   useEffect(() => {
     AOS.init({
-      duration: 1000, // Duration of animations in milliseconds
-      once: true, // Trigger animation only once
+      duration: 1000,
+      once: true,
     });
+    AOS.refresh();
   }, []);
+
 
   return (
     <div className="absolute right-5 top-5 p-2 rounded-lg shadow-lg border border-gray-300 sm:right-2 sm:p-0 sm:top-4" data-aos="fade-down">

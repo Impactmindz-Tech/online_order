@@ -44,10 +44,12 @@ const OnlineOrdering: React.FC = () => {
 
   useEffect(() => {
     AOS.init({
-      duration: 1000, // Duration of animations in milliseconds
-      once: true, // Trigger animation only once
+      duration: 1000,
+      once: true,
     });
+    AOS.refresh();
   }, []);
+
   return (
     <section className="main-bg">
       <div className="page_width">

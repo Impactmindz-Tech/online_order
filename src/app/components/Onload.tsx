@@ -11,10 +11,12 @@ const Onload = () => {
   const { t } = useTranslation();
   useEffect(() => {
     AOS.init({
-      duration: 1000, // Duration of animations in milliseconds
+      duration: 1000,
+      once: true,
     });
-    AOS.refresh(); // Refresh to ensure animations are applied
+    AOS.refresh();
   }, []);
+
   return (
     <section className="hero_section">
       <div className="page_width h-full" data-aos="fade-down">

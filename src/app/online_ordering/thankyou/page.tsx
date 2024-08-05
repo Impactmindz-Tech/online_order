@@ -14,11 +14,12 @@ const Thankyou = () => {
 
   useEffect(() => {
     AOS.init({
-      duration: 1000, // Duration of animations in milliseconds
-      once: true, // Trigger animation only once
+      duration: 1000,
+      once: true,
     });
-    AOS.refresh(); // Refresh to ensure animations are applied
+    AOS.refresh();
   }, []);
+
 
   return (
     <section className="hero_section">
