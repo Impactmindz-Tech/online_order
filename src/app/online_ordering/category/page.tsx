@@ -127,7 +127,7 @@ const Category: React.FC = () => {
               </Link>
             </div>
             <div>
-              <Link href={"/online_ordering"}>
+              <Link href={"/online_ordering"} className={` ${lang ? "flex justify-end" : ""}`}>
                 <button className={`text-[#fff] bg-[#ded4c4] p-3 rounded-xl font-bold ${lang ? "rtl" : ""}`}>{t("Back")}</button>
               </Link>
             </div>

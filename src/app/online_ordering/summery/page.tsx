@@ -83,7 +83,7 @@ const ViewMeals: React.FC = () => {
             <Image width={200} height={100} src={onloadImg} alt="onload img" />
           </Link>
         </div>
-        <div className="">
+        <div className={`${lang ? "flex justify-end" : ""}`}>
           <Link href={"/online_ordering/category"}>
             {" "}
             <button className={`text-[#fff] bg-[#ded4c4] p-3 rounded-xl font-bold  ${lang ? "rtl" : ""}`}> {t("Back")}</button>
