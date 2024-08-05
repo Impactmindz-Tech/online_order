@@ -45,6 +45,7 @@ interface SwiperSliderProps {
 const SwiperSlider: React.FC<SwiperSliderProps> = ({ params }) => {
   const { t, i18n } = useTranslation();
   const dispatch = useDispatch();
+  const [lang, setLang] = useState(false);
   const [categorySelection, setCategorySelection] = useState<Record<string, boolean>>({});
   const category = useSelector((state: RootState) => state.Product.category);
   const product = useSelector((state: RootState) => state.Product.products);
@@ -148,7 +149,13 @@ const SwiperSlider: React.FC<SwiperSliderProps> = ({ params }) => {
       setCategorySelection(JSON.parse(storedSelection));
     }
   }, [i18n.language]);
-
+  useEffect(() => {
+    if (getFromLocalStorage("lang") === "he") {
+      setLang(true);
+    } else {
+      setLang(false);
+    }
+  }, [getFromLocalStorage("lang")]);
   return (
     <>
       {loading && <Loading />}
@@ -169,8 +176,8 @@ const SwiperSlider: React.FC<SwiperSliderProps> = ({ params }) => {
                   <div key={item?.id} className="mt-14">
                     <SwiperSlide key={`${item?.id}-cat`}>
                       <div className="text-center mt-10">
-                        <h1 className="text-white text-4xl font-semibold">{item?.Name}</h1>
-                        <p className="text-white">{t("choose")}</p>
+                        <h1 className={`text-white text-4xl font-semibold  ${lang ? "rtl" : ""}`}>{item?.Name}</h1>
+                        <p className={`text-white  ${lang ? "rtl" : ""}`}>{t("choose")}</p>
                         <div className="flex flex-wrap gap-3  sm:grid sm:grid-cols-2 mt-5">
                           {product
                             ?.filter((pro: ProductsModels) => pro.category == item?.Name)
@@ -189,7 +196,7 @@ const SwiperSlider: React.FC<SwiperSliderProps> = ({ params }) => {
                                     )}
                                     <Image width={349} height={70} className="w-[389px] h-[232px] object-cover rounded-lg" src={prodctItem?.ImageUrl} alt="" priority />
                                   </div>
-                                  <h1 className="text-black text-xl mt-4 font-semibold sm:text-md sm:font-bold sm:word-break">{prodctItem?.Name}</h1>
+                                  <h1 className={`text-black text-xl mt-4 font-semibold sm:text-md sm:font-bold sm:word-break  ${lang ? "rtl" : ""}`}>{prodctItem?.Name}</h1>
                                 </div>
                               );
                             })}
@@ -204,11 +211,11 @@ const SwiperSlider: React.FC<SwiperSliderProps> = ({ params }) => {
             <div className="bg-[#2f52a0] p-4 mt-5 rounded-xl">
               {allCategoriesSelected() ? (
                 <Link href={"/online_ordering/summery"}>
-                  <button className="w-full text-white text-center rounded-xl textShadow">{t("Order")}</button>
+                  <button className={`w-full text-white text-center rounded-xl textShadow  ${lang ? "rtl" : ""}`}>{t("Order")}</button>
                 </Link>
               ) : (
                 <Link href={"/online_ordering/category"}>
-                  <button className="w-full text-white text-center rounded-xl textShadow">{t("Next")}</button>
+                  <button className={`w-full text-white text-center rounded-xl textShadow ${lang ? "rtl" : ""}`}>{t("Next")}</button>
                 </Link>
               )}
             </div>

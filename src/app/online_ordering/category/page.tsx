@@ -24,6 +24,7 @@ const Category: React.FC = () => {
   const cart = useSelector((state: RootState) => state.Product.cart);
   const products = useSelector((state: RootState) => state.Product.products);
   const savedLanguage = getFromLocalStorage("lang") || "en";
+  const [lang, setLang] = useState(false);
 
   const mealTypeMapping: { [key: string]: string } = {
     "ארוחת בוקר": "breakfast",
@@ -101,6 +102,13 @@ const Category: React.FC = () => {
     AOS.refresh();
   }, []);
 
+  useEffect(() => {
+    if (getFromLocalStorage("lang") === "he") {
+      setLang(true);
+    } else {
+      setLang(false);
+    }
+  }, [getFromLocalStorage("lang")]);
   const handleNavigate = (item: CategoryModels) => {
     setInLocalStorage("categoryProduct", item?.Name);
     router.push("/online_ordering/products");
@@ -120,7 +128,7 @@ const Category: React.FC = () => {
             </div>
             <div>
               <Link href={"/online_ordering"}>
-                <button className="text-[#fff] bg-[#ded4c4] p-3 rounded-xl font-bold">{t("Back")}</button>
+                <button className={`text-[#fff] bg-[#ded4c4] p-3 rounded-xl font-bold ${lang ? "rtl" : ""}`}>{t("Back")}</button>
               </Link>
             </div>
             {categories?.map((item) => {
@@ -131,7 +139,7 @@ const Category: React.FC = () => {
                   <div className="w-full h-[185px] relative cursor-pointer" onClick={() => handleNavigate(item)}>
                     <div className={`bg-[#00000083] absolute top-0 w-full h-full left-0 rounded-lg`}></div>
                     <img className="object-cover w-full h-full rounded-lg" src={item?.ImageUrl} alt="category image" />
-                    <p className={`absolute top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 text-xl  text-white font-bold `}>{item?.Name} </p>
+                    <p className={`absolute top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 text-xl  text-white font-bold ${lang ? "rtl" : ""}`}>{item?.Name} </p>
                     {isComplete && (
                       <div className="absolute top-0 left-0 w-full h-full bg-[#9efeb98a] flex items-center justify-center z-10 rounded-lg">
                         <CheckIcon style={{ fontSize: 80, color: "white" }} />

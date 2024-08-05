@@ -9,8 +9,10 @@ import { useTranslation } from "react-i18next";
 import "../../../i18n";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { getFromLocalStorage } from "@/app/utills/LocalStorageUtills";
 const Thankyou = () => {
   const { t } = useTranslation();
+  const [lang, setLang] = useState(false);
 
   useEffect(() => {
     AOS.init({
@@ -19,7 +21,13 @@ const Thankyou = () => {
     });
     AOS.refresh();
   }, []);
-
+  useEffect(() => {
+    if (getFromLocalStorage("lang") === "he") {
+      setLang(true);
+    } else {
+      setLang(false);
+    }
+  }, [getFromLocalStorage("lang")]);
   return (
     <section className="hero_section">
       <div className="page_width h-full">
@@ -39,7 +47,7 @@ const Thankyou = () => {
           </div>
           <div>
             <Link href={"/"} className="pt-8">
-              <button className="bg-[#2F52A0] py-4 w-full text-white font-semibold text-xl rounded-xl textShadow mb-2">{t("Home")}</button>
+              <button className={`bg-[#2F52A0] py-4 w-full text-white font-semibold text-xl rounded-xl textShadow mb-2  ${lang ? "rtl" : ""}`}>{t("Home")}</button>
             </Link>
           </div>
         </div>

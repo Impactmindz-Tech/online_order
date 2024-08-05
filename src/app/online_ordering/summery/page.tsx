@@ -14,15 +14,14 @@ import { resetCart } from "@/app/store/slice/ProductSlice";
 import { getFromLocalStorage } from "@/app/utills/LocalStorageUtills";
 import { useTranslation } from "react-i18next";
 import "../../../i18n";
-import AOS from 'aos';
-import 'aos/dist/aos.css';
+import AOS from "aos";
+import "aos/dist/aos.css";
 const ViewMeals: React.FC = () => {
-
-
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const router = useRouter();
-  const [lang, setLang] = useState<string | null>(null);
+  const [langText, setLangText] = useState<string | null>(null);
+  const [lang, setLang] = useState(false);
 
   const [groupedByMeal, setGroupedByMeal] = useState<Record<string, ProductsModels[]>>({});
   const [selectedOptions, setSelectedOptions] = useState<{ [key: string]: boolean }>({
@@ -64,19 +63,30 @@ const ViewMeals: React.FC = () => {
 
   useEffect(() => {
     if (localStorage?.getItem("lang")) {
-      setLang(localStorage.getItem("lang"));
+      setLangText(localStorage.getItem("lang"));
     }
   }, []);
+
+  useEffect(() => {
+    if (getFromLocalStorage("lang") === "he") {
+      setLang(true);
+    } else {
+      setLang(false);
+    }
+  }, [getFromLocalStorage("lang")]);
   return (
-    <section className="main-bg"  >
+    <section className="main-bg">
       <div className="page_width h-full" data-aos="fade-down">
-        <div className="flex justify-center h-full p-10" >
-        <Link href={"/"}>  <Image width={200} height={100} src={onloadImg} alt="onload img" /></Link>
+        <div className="flex justify-center h-full p-10">
+          <Link href={"/"}>
+            {" "}
+            <Image width={200} height={100} src={onloadImg} alt="onload img" />
+          </Link>
         </div>
-        <div className="" >
+        <div className="">
           <Link href={"/online_ordering/category"}>
             {" "}
-            <button className="text-[#fff] bg-[#ded4c4] p-3 rounded-xl font-bold"> {t("Back")}</button>
+            <button className={`text-[#fff] bg-[#ded4c4] p-3 rounded-xl font-bold  ${lang ? "rtl" : ""}`}> {t("Back")}</button>
           </Link>
         </div>
 
@@ -84,16 +94,16 @@ const ViewMeals: React.FC = () => {
 
         {mealData && Object.keys(mealData).length > 0 ? (
           Object.keys(mealData).map((mealType) => (
-            <div key={mealType} className="pt-5"  >
-              {mealType === "breakfast" && <h1 className="text-white text-xl">{lang === '"ru"' ? "Завтрак" : lang === '"he"' ? "ארוחת בוקר" : "Breakfast"}</h1>}
-              {mealType === "lunch" && <h1 className="text-white text-xl">{lang === '"ru"' ? "обед" : lang === '"he"' ? "ארוחת צהריים " : "lunch"}</h1>}
-              {mealType === "dinner" && <h1 className="text-white text-xl">{lang === '"ru"' ? "ужин" : lang === '"he"' ? "אֲרוּחַת עֶרֶב" : "dinner"}</h1>}
+            <div key={mealType} className={`pt-5  ${lang ? "rtl" : ""}`}>
+              {mealType === "breakfast" && <h1 className="text-white text-xl">{langText === '"ru"' ? "Завтрак" : langText === '"he"' ? "ארוחת בוקר" : "Breakfast"}</h1>}
+              {mealType === "lunch" && <h1 className="text-white text-xl">{langText === '"ru"' ? "обед" : langText === '"he"' ? "ארוחת צהריים " : "lunch"}</h1>}
+              {mealType === "dinner" && <h1 className="text-white text-xl">{langText === '"ru"' ? "ужин" : langText === '"he"' ? "אֲרוּחַת עֶרֶב" : "dinner"}</h1>}
 
               {/* <h1 className="text-white text-xl">{mealType.charAt(0).toUpperCase() + mealType.slice(1)}</h1> */}
               {mealData[mealType as keyof typeof mealData]?.length > 0 ? (
                 mealData[mealType as keyof typeof mealData].map((item: ProductsModels) => (
-                  <div key={item.id} className="pt-3" >
-                    <p className="text-white">{item.Name}</p>
+                  <div key={item.id} className="pt-3">
+                    <p className={`text-white  ${lang ? "rtl" : ""}`}>{item.Name}</p>
                   </div>
                 ))
               ) : (
@@ -105,31 +115,31 @@ const ViewMeals: React.FC = () => {
           <p className="text-white">No meals available.</p>
         )}
 
-        <div className="pt-10 " >
-          <h1 className="bg-[#eadecf] p-3 pl-6 rounded-lg"  > {t("location")}</h1>
-          <div className="pt-5" >
+        <div className="pt-10 ">
+          <h1 className={`bg-[#eadecf] p-3 pl-6 rounded-lg  ${lang ? "rtl" : ""}`}> {t("location")}</h1>
+          <div className="pt-5">
             <label className="custom-checkbox">
               <input type="checkbox" name="Tomorrow" id="Tomorrow" checked={selectedOptions.Tomorrow} onChange={handleCheckboxChange} />
               <span className="checkmark"></span>
-              <span className="label-text"> {t("Tomorrow")}</span>
+              <span className={`label-text  ${lang ? "rtl" : ""}`}> {t("Tomorrow")}</span>
             </label>
           </div>
           <div className="pt-5">
             <label className="custom-checkbox" htmlFor="Week">
               <input type="checkbox" name="Week" id="Week" checked={selectedOptions.Week} onChange={handleCheckboxChange} />
               <span className="checkmark"></span>
-              <span className="label-text"> {t("TheRestofthisWeek")}</span>
+              <span className={`label-text  ${lang ? "rtl" : ""}`}> {t("TheRestofthisWeek")}</span>
             </label>
           </div>
           <div className="pt-5">
             <label className="custom-checkbox" htmlFor="Staying">
               <input type="checkbox" name="Staying" id="Staying" checked={selectedOptions.Staying} onChange={handleCheckboxChange} />
               <span className="checkmark"></span>
-              <span className="label-text"> {t("AllMyStaying")}</span>
+              <span className={`label-text  ${lang ? "rtl" : ""}`}> {t("AllMyStaying")}</span>
             </label>
           </div>
 
-          <button className="bg-[#5663ff] py-4 w-full text-white font-semibold text-xl mt-10 rounded-xl textShadow mb-2" onClick={handleSubmit}>
+          <button className={`bg-[#5663ff] py-4 w-full text-white font-semibold text-xl mt-10 rounded-xl textShadow mb-2  ${lang ? "rtl" : ""}`} onClick={handleSubmit}>
             {t("ApproveandSendIt")}
           </button>
         </div>

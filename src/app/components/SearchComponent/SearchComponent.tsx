@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState, useEffect } from "react";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import Button from "@mui/material/Button";
@@ -8,6 +8,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import debounce from "lodash.debounce";
 import { useTranslation } from "react-i18next";
+import { getFromLocalStorage } from "@/app/utills/LocalStorageUtills";
 
 const NOMINATIM_BASE_URL = "https://nominatim.openstreetmap.org/search?";
 
@@ -27,6 +28,8 @@ const SearchComponent: React.FC<SearchComponentProps> = ({ selectPosition, setSe
   const [searchText, setSearchText] = useState<string>("");
   const [listPlace, setListPlace] = useState<Place[]>([]);
   const { t } = useTranslation();
+
+  const [lang, setLang] = useState(false);
 
   const fetchPlaces = async (query: string) => {
     if (!query) {
@@ -56,22 +59,22 @@ const SearchComponent: React.FC<SearchComponentProps> = ({ selectPosition, setSe
   useEffect(() => {
     debouncedFetchPlaces(searchText);
   }, [searchText]);
-
+  useEffect(() => {
+    if (getFromLocalStorage("lang") === "he") {
+      setLang(true);
+    } else {
+      setLang(false);
+    }
+  }, [getFromLocalStorage("lang")]);
   return (
     <>
-      <OutlinedInput
-        value={searchText}
-        placeholder={t("AutoComplete")}
-      className="w-[90%] m-auto"
-        onChange={(e) => setSearchText(e.target.value)}
-      />
+      <OutlinedInput value={searchText} placeholder={t("AutoComplete")} className={`w-[90%] m-auto ${lang ? "rtl" : ""}`} onChange={(e) => setSearchText(e.target.value)} />
       <List>
         {listPlace.map((item) => (
           <ListItem
             button
             key={item.place_id}
             onClick={() => {
-       
               setSelectPosition(item);
               setSearchText(item.display_name); // Set the input field with the selected item's display name
               setListPlace([]); // Clear suggestions after selection
