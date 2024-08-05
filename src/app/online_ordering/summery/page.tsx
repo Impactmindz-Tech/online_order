@@ -67,7 +67,11 @@ const ViewMeals: React.FC = () => {
         {mealData && Object.keys(mealData).length > 0 ? (
           Object.keys(mealData).map((mealType) => (
             <div key={mealType} className="pt-5">
-              <h1 className="text-white text-xl">{mealType.charAt(0).toUpperCase() + mealType.slice(1)}</h1>
+              {mealType === "breakfast" && <h1 className="text-white text-xl">{localStorage?.getItem("lang") === '"ru"' ? "Завтрак" : localStorage?.getItem("lang") === '"he"' ? "ארוחת בוקר" : "Breakfast"}</h1>}
+              {mealType === "lunch" && <h1 className="text-white text-xl">{localStorage?.getItem("lang") === '"ru"' ? "обед" : localStorage?.getItem("lang") === '"he"' ? "ארוחת צהריים " : "lunch"}</h1>}
+              {mealType === "dinner" && <h1 className="text-white text-xl">{localStorage?.getItem("lang") === '"ru"' ? "ужин" : localStorage?.getItem("lang") === '"he"' ? "אֲרוּחַת עֶרֶב" : "dinner"}</h1>}
+
+              {/* <h1 className="text-white text-xl">{mealType.charAt(0).toUpperCase() + mealType.slice(1)}</h1> */}
               {mealData[mealType as keyof typeof mealData]?.length > 0 ? (
                 mealData[mealType as keyof typeof mealData].map((item: ProductsModels) => (
                   <div key={item.id} className="pt-3">

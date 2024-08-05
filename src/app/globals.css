@@ -72,12 +72,13 @@ body {
 
 .swiper-button-next {
   bottom: 90px !important;
-  top: unset !important;
+  top: 70% !important;
 }
 
 .swiper-button-prev {
   bottom: 90px !important;
-  top: unset !important;
+  top: 70% !important;
+
 }
 
 

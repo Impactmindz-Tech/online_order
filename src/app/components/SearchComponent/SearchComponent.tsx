@@ -7,6 +7,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import debounce from "lodash.debounce";
+import { useTranslation } from "react-i18next";
 
 const NOMINATIM_BASE_URL = "https://nominatim.openstreetmap.org/search?";
 
@@ -25,6 +26,7 @@ interface Place {
 const SearchComponent: React.FC<SearchComponentProps> = ({ selectPosition, setSelectPosition }) => {
   const [searchText, setSearchText] = useState<string>("");
   const [listPlace, setListPlace] = useState<Place[]>([]);
+  const { t } = useTranslation();
 
   const fetchPlaces = async (query: string) => {
     if (!query) {
@@ -59,7 +61,8 @@ const SearchComponent: React.FC<SearchComponentProps> = ({ selectPosition, setSe
     <>
       <OutlinedInput
         value={searchText}
-        placeholder="Auto-Complete SelectBox"
+        placeholder={t("AutoComplete")}
+      className="w-[90%] m-auto"
         onChange={(e) => setSearchText(e.target.value)}
       />
       <List>
@@ -68,7 +71,7 @@ const SearchComponent: React.FC<SearchComponentProps> = ({ selectPosition, setSe
             button
             key={item.place_id}
             onClick={() => {
-              console.log(item); // Log the selected item
+       
               setSelectPosition(item);
               setSearchText(item.display_name); // Set the input field with the selected item's display name
               setListPlace([]); // Clear suggestions after selection

@@ -55,13 +55,13 @@ const OnlineOrdering: React.FC = () => {
               <Image width={100} height={100} src={alert_img} alt="onload img" />
             </div>
             <div className="bg-[#ded4c4] text-center pt-5 rounded-xl">
-              <button className="text-2xl text-[#3E3939] font-semibold pr-2 sm:text-sm sm:mb-2">{t("AutoComplete")}</button>
+              {/* <button className="text-2xl text-[#3E3939] font-semibold pr-2 sm:text-sm sm:mb-2">{t("AutoComplete")}</button> */}
               <SearchComponent selectPosition={selectPosition} setSelectPosition={setSelectPosition} />
             </div>
             <p role="button" className="text-[#5663FF] text-xl font-bold text-center pt-3 sm:text-sm" onClick={() => setshowinput(!showinput)}>
               {t("IRatherusemyName")}
             </p>
-            {showinput && <input type="text" placeholder={t("AutoCompleteInput")} className={`p-3 sm:text-sm outline-none border border-[#ccc] rounded-lg mt-2 ${lang?'text-right':'text-left'} sm:w-full `} onChange={(e) => setinputvalue(e.target.value)} />}
+            {showinput && <input type="text" placeholder={t("AutoCompleteInput")} className={`p-3 sm:text-sm outline-none bg-[#ded4c4] border border-[#000] w-[90%] m-auto text-black rounded-lg mt-2 ${lang?'text-right':'text-left'} sm:w-full `} onChange={(e) => setinputvalue(e.target.value)} />}
           </div>
           <div className="flex justify-center py-8 pt-32 sm:pt-8">
             <Image width={200} height={200} src={location_imgs} alt="onload img" className="mx-auto sm:m-0 sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5" priority/>

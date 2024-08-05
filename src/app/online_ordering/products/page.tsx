@@ -121,7 +121,6 @@ const SwiperSlider: React.FC<SwiperSliderProps> = ({ params }) => {
 
   const allCategoriesSelected = () => {
     const categorySet = new Set(category.map((cat) => cat.Name));
-    console.log(category);
     const selectedSet = new Set(Object.keys(categorySelection));
     return categorySet.size === selectedSet.size;
   };
@@ -169,20 +168,17 @@ const SwiperSlider: React.FC<SwiperSliderProps> = ({ params }) => {
                               const isActive = cart[mealType]?.some((cartItem: ProductsModels) => cartItem.id == prodctItem.id) ?? false;
 
                               return (
-                                  <div className={`flex flex-col w-[49%] cursor-pointer sm:w-[100%]`}  key={`${prodctItem?.id}-pro`}>
-                                <div className={`relative`} onClick={() => handleAddToCart(prodctItem)}>
-
-                                 
-                                  {isActive && (
-                                    <div className="w-full h-full bg-[#9efeb98a] absolute flex items-center justify-center rounded-lg">
-                                      <CheckIcon sx={{ width: "100px", fontSize: "80px", fill: "white" }} />
-                                    </div>
-                                  )}
-                                  <Image width={349} height={70} className="w-[389px] h-[232px] object-cover rounded-lg" src={prodctItem?.ImageUrl} alt="" priority />
-                                </div>
+                                <div className={`flex flex-col w-[49%] cursor-pointer sm:w-[100%]`} key={`${prodctItem?.id}-pro`}>
+                                  <div className={`relative`} onClick={() => handleAddToCart(prodctItem)}>
+                                    {isActive && (
+                                      <div className="w-full h-full bg-[#9efeb98a] absolute flex items-center justify-center rounded-lg">
+                                        <CheckIcon sx={{ width: "100px", fontSize: "80px", fill: "white" }} />
+                                      </div>
+                                    )}
+                                    <Image width={349} height={70} className="w-[389px] h-[232px] object-cover rounded-lg" src={prodctItem?.ImageUrl} alt="" priority />
+                                  </div>
                                   <h1 className="text-black text-xl mt-4 font-semibold sm:text-md sm:font-bold sm:word-break">{prodctItem?.Name}</h1>
                                 </div>
-
                               );
                             })}
                         </div>

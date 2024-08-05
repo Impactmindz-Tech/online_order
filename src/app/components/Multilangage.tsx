@@ -32,9 +32,15 @@ const Multilangage: React.FC = () => {
   return (
     <div className="absolute right-5 top-5 p-2 rounded-lg shadow-lg border border-gray-300 sm:right-2 sm:p-0 sm:top-4">
       <select value={i18n.language} onChange={changeLanguage} aria-label="Select Language" className="p-2 bg-gray-100 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-sm sm:p-1">
-        <option value="en">English</option>
-        <option value="he">עִברִית</option>
-        <option value="ru">Русский</option>
+        <option value="en" defaultChecked={localStorage?.getItem("lang") === '"en"' ? true : false}>
+          English
+        </option>
+        <option value="he" defaultChecked={localStorage?.getItem("lang") === '"he"' ? true : false}>
+          עִברִית
+        </option>
+        <option value="ru" defaultChecked={localStorage?.getItem("lang") === '"ru"' ? true : false}>
+          Русский
+        </option>
       </select>
     </div>
   );
