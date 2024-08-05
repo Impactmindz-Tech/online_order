@@ -13,6 +13,8 @@ import CheckIcon from "@mui/icons-material/Check";
 import { RootState } from "@/app/store/Store";
 import { ProductsModels } from "@/app/modal/ProductModels";
 import Link from "next/link";
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 import Loading from "@/app/components/loading/Loading";
 import { useTranslation } from "react-i18next";
 import "swiper/css/navigation";
@@ -50,7 +52,13 @@ const SwiperSlider: React.FC<SwiperSliderProps> = ({ params }) => {
   const [swiper, setSwiper] = useState<any>(null);
   const [isLastSlide, setIsLastSlide] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
-
+  useEffect(() => {
+    AOS.init({
+      duration: 1000, // Duration of animations in milliseconds
+      once: true, // Trigger animation only once
+    });
+    AOS.refresh(); // Refresh to ensure animations are applied
+  }, []);
   const savedLanguage: any = getFromLocalStorage("lang") || "en";
 
   const fetchCategory = async () => {
@@ -154,7 +162,7 @@ const SwiperSlider: React.FC<SwiperSliderProps> = ({ params }) => {
               ?.filter((cat) => cat?.Category == getFromLocalStorage("categoryProduct"))
               .map((item) => {
                 return (
-                  <div key={item?.id} className="mt-14">
+                  <div key={item?.id} className="mt-14" >
                     <SwiperSlide key={`${item?.id}-cat`}>
                       <div className="text-center mt-10">
                         <h1 className="text-white text-4xl font-semibold">{item?.Name}</h1>
@@ -168,7 +176,7 @@ const SwiperSlider: React.FC<SwiperSliderProps> = ({ params }) => {
                               const isActive = cart[mealType]?.some((cartItem: ProductsModels) => cartItem.id == prodctItem.id) ?? false;
 
                               return (
-                                <div className={`flex flex-col w-[49%] cursor-pointer sm:w-[100%]`} key={`${prodctItem?.id}-pro`}>
+                                <div className={`flex flex-col w-[49%] cursor-pointer sm:w-[100%]`} key={`${prodctItem?.id}-pro`} data-aos="fade-left">
                                   <div className={`relative`} onClick={() => handleAddToCart(prodctItem)}>
                                     {isActive && (
                                       <div className="w-full h-full bg-[#9efeb98a] absolute flex items-center justify-center rounded-lg">

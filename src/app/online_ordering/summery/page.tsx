@@ -14,8 +14,11 @@ import { resetCart } from "@/app/store/slice/ProductSlice";
 import { getFromLocalStorage } from "@/app/utills/LocalStorageUtills";
 import { useTranslation } from "react-i18next";
 import "../../../i18n";
-
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 const ViewMeals: React.FC = () => {
+
+
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const router = useRouter();
@@ -52,17 +55,24 @@ const ViewMeals: React.FC = () => {
   };
 
   useEffect(() => {
+    AOS.init({
+      duration: 1000, // Duration of animations in milliseconds
+      once: true, // Trigger animation only once
+    });
+    AOS.refresh(); // Refresh to ensure animations are applied
+  }, []);
+  useEffect(() => {
     if (localStorage?.getItem("lang")) {
       setLang(localStorage.getItem("lang"));
     }
   }, []);
   return (
-    <section className="main-bg">
-      <div className="page_width h-full">
-        <div className="flex justify-center h-full p-10">
+    <section className="main-bg"  >
+      <div className="page_width h-full" data-aos="fade-down">
+        <div className="flex justify-center h-full p-10" >
           <Image width={200} height={100} src={onloadImg} alt="onload img" />
         </div>
-        <div className="">
+        <div className="" >
           <Link href={"/online_ordering/category"}>
             {" "}
             <button className="text-[#fff] bg-[#ded4c4] p-3 rounded-xl font-bold"> {t("Back")}</button>
@@ -73,7 +83,7 @@ const ViewMeals: React.FC = () => {
 
         {mealData && Object.keys(mealData).length > 0 ? (
           Object.keys(mealData).map((mealType) => (
-            <div key={mealType} className="pt-5">
+            <div key={mealType} className="pt-5"  >
               {mealType === "breakfast" && <h1 className="text-white text-xl">{lang === '"ru"' ? "Завтрак" : lang === '"he"' ? "ארוחת בוקר" : "Breakfast"}</h1>}
               {mealType === "lunch" && <h1 className="text-white text-xl">{lang === '"ru"' ? "обед" : lang === '"he"' ? "ארוחת צהריים " : "lunch"}</h1>}
               {mealType === "dinner" && <h1 className="text-white text-xl">{lang === '"ru"' ? "ужин" : lang === '"he"' ? "אֲרוּחַת עֶרֶב" : "dinner"}</h1>}
@@ -81,7 +91,7 @@ const ViewMeals: React.FC = () => {
               {/* <h1 className="text-white text-xl">{mealType.charAt(0).toUpperCase() + mealType.slice(1)}</h1> */}
               {mealData[mealType as keyof typeof mealData]?.length > 0 ? (
                 mealData[mealType as keyof typeof mealData].map((item: ProductsModels) => (
-                  <div key={item.id} className="pt-3">
+                  <div key={item.id} className="pt-3" >
                     <p className="text-white">{item.Name}</p>
                   </div>
                 ))
@@ -94,9 +104,9 @@ const ViewMeals: React.FC = () => {
           <p className="text-white">No meals available.</p>
         )}
 
-        <div className="pt-10 ">
-          <h1 className="bg-[#eadecf] p-3 pl-6 rounded-lg"> {t("location")}</h1>
-          <div className="pt-5">
+        <div className="pt-10 " >
+          <h1 className="bg-[#eadecf] p-3 pl-6 rounded-lg"  > {t("location")}</h1>
+          <div className="pt-5" >
             <label className="custom-checkbox">
               <input type="checkbox" name="Tomorrow" id="Tomorrow" checked={selectedOptions.Tomorrow} onChange={handleCheckboxChange} />
               <span className="checkmark"></span>

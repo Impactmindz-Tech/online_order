@@ -14,7 +14,8 @@ import { getFromLocalStorage, setInLocalStorage } from "@/app/utills/LocalStorag
 import { useRouter } from "next/navigation";
 import onloadImg from "../../../assests/white_logo.png";
 import Link from "next/link";
-
+import AOS from "aos";
+import "aos/dist/aos.css";
 const Category: React.FC = () => {
   const router = useRouter();
   const { t, i18n } = useTranslation();
@@ -92,6 +93,12 @@ const Category: React.FC = () => {
     fetchCategory();
   }, [i18n.language, products, cart]);
 
+  useEffect(() => {
+    AOS.init({
+      duration: 1000, // Duration of animations in milliseconds
+      once: true, // Trigger animation only once
+    });
+  }, []);
   const handleNavigate = (item: CategoryModels) => {
     setInLocalStorage("categoryProduct", item?.Name);
     router.push("/online_ordering/products");
@@ -107,13 +114,15 @@ const Category: React.FC = () => {
               <Image width={200} height={100} src={onloadImg} alt="onload img" />
             </div>
             <div>
-             <Link href={"/online_ordering"}><button className="text-[#fff] bg-[#ded4c4] p-3 rounded-xl font-bold">{t("Back")}</button></Link>
+              <Link href={"/online_ordering"}>
+                <button className="text-[#fff] bg-[#ded4c4] p-3 rounded-xl font-bold">{t("Back")}</button>
+              </Link>
             </div>
             {categories?.map((item) => {
               const mealType = item.id;
               const isComplete = isCategoryComplete(mealType);
               return (
-                <div className="flex flex-col gap-5 py-5" key={item?.id}>
+                <div className="flex flex-col gap-5 py-5" key={item?.id} data-aos="flip-right">
                   <div className="w-full h-[185px] relative cursor-pointer" onClick={() => handleNavigate(item)}>
                     <div className={`bg-[#00000083] absolute top-0 w-full h-full left-0 rounded-lg`}></div>
                     <img className="object-cover w-full h-full rounded-lg" src={item?.ImageUrl} alt="category image" />

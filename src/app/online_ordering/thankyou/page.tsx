@@ -7,17 +7,28 @@ import Link from "next/link";
 import CheckIcon from "@mui/icons-material/Check";
 import { useTranslation } from "react-i18next";
 import "../../../i18n";
+import AOS from "aos";
+import "aos/dist/aos.css";
 const Thankyou = () => {
   const { t } = useTranslation();
+
+  useEffect(() => {
+    AOS.init({
+      duration: 1000, // Duration of animations in milliseconds
+      once: true, // Trigger animation only once
+    });
+    AOS.refresh(); // Refresh to ensure animations are applied
+  }, []);
+
   return (
     <section className="hero_section">
       <div className="page_width h-full">
-        <div className="flex flex-col justify-between h-full">
+        <div className="flex flex-col justify-between h-full" data-aos="fade-down">
           <div className="mt-4 h-full">
             <Image className="mx-auto" width={200} height={1080} src={onloadImg} alt="onload img" />
             <div className="pt-10 h-full flex items-center justify-center sm:pt-4">
               <h1 className="text-[#2F52A0] text-4xl font-bold">
-            <Image  className="mx-auto  sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5" width={200} height={1080} src={complete} alt="onload img"  />
+                <Image className="mx-auto  sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5" width={200} height={1080} src={complete} alt="onload img" />
 
                 {/* <CheckIcon sx={{ fontSize: "80px", bgcolor: "#2f52a0", color: "white", borderRadius: "100%", padding: "10px 0" }} /> */}
               </h1>

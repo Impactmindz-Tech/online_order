@@ -12,6 +12,8 @@ import { setInLocalStorage } from "../utills/LocalStorageUtills";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import "../../i18n";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const OnlineOrdering: React.FC = () => {
   const { t } = useTranslation();
@@ -39,15 +41,22 @@ const OnlineOrdering: React.FC = () => {
       setLang(true);
     }
   }, []);
+
+  useEffect(() => {
+    AOS.init({
+      duration: 1000, // Duration of animations in milliseconds
+      once: true, // Trigger animation only once
+    });
+  }, []);
   return (
     <section className="main-bg">
       <div className="page_width">
-        <div>
+        <div data-aos="fade-right">
           <div className="flex justify-center h-full p-10 sm:p-4">
             <Image width={200} height={100} src={onloadImg} alt="onload img" />
           </div>
 
-          <div className="">
+          <div className="" data-aos="fade-down">
             <h1 className="text-[#fff] text-4xl font-bold textShadow sm:text-sm">{t("sowhere")}</h1>
           </div>
           <div className="text-center pt-14 sm:pt-2">
@@ -61,10 +70,10 @@ const OnlineOrdering: React.FC = () => {
             <p role="button" className="text-[#5663FF] text-xl font-bold text-center pt-3 sm:text-sm" onClick={() => setshowinput(!showinput)}>
               {t("IRatherusemyName")}
             </p>
-            {showinput && <input type="text" placeholder={t("AutoCompleteInput")} className={`p-3 sm:text-sm outline-none bg-[#ded4c4] border border-[#000] w-[90%] m-auto text-black rounded-lg mt-2 ${lang?'text-right':'text-left'} sm:w-full `} onChange={(e) => setinputvalue(e.target.value)} />}
+            {showinput && <input type="text" placeholder={t("AutoCompleteInput")} className={`p-3 sm:text-sm outline-none bg-[#ded4c4] border border-[#000] w-[90%] m-auto text-black rounded-lg mt-2 ${lang ? "text-right" : "text-left"} sm:w-full `} onChange={(e) => setinputvalue(e.target.value)} />}
           </div>
           <div className="flex justify-center py-8 pt-32 sm:pt-8">
-            <Image width={200} height={200} src={location_imgs} alt="onload img" className="mx-auto sm:m-0 sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5" priority/>
+            <Image width={200} height={200} src={location_imgs} alt="onload img" className="mx-auto sm:m-0 sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5" priority />
           </div>
           {/* <Link href={"/online_ordering/category"}> */}
           <button className="bg-[#2F52A0] py-4 w-full text-white font-semibold text-xl rounded-xl sm:text-sm sm:my-2 textShadow" onClick={handleRoute}>
