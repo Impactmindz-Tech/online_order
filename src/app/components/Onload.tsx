@@ -36,7 +36,7 @@ const Onload = () => {
               <Image className="mx-auto sm:m-0 sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5" width={200} height={1080} src={onloadImg} alt="onload img" />
             </Link>
             <div className="pt-10">
-              <h1 className={`text-[#2F52A0] text-4xl font-bold titleHeading ${lang ? "rtl" : ""}`}>{t("welcomeHeading")}</h1>
+              <h1 className={`text-[#2F52A0] text-4xl font-bold titleHeading ${lang ? "rtl   " : ""}`}>{t("welcomeHeading")}</h1>
             </div>
           </div>
           <div>

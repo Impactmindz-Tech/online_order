@@ -168,12 +168,12 @@ const SwiperSlider: React.FC<SwiperSliderProps> = ({ params }) => {
             </Link>
           </div>
 
-          <Swiper autoHeight={true} modules={[Pagination, Navigation]} navigation={true} pagination={{ clickable: true }} slidesPerView={1} onSwiper={(swiperInstance) => setSwiper(swiperInstance)} onSlideChange={handleSlideChange}>
+          <Swiper autoHeight={true} modules={[Pagination]} pagination={{ clickable: true }} slidesPerView={1} onSwiper={(swiperInstance) => setSwiper(swiperInstance)} onSlideChange={handleSlideChange}>
             {category
               ?.filter((cat) => cat?.Category == getFromLocalStorage("categoryProduct"))
               .map((item) => {
                 return (
-                  <div key={item?.id} className="mt-14">
+                  <div key={item?.id} className="mt-14 ">
                     <SwiperSlide key={`${item?.id}-cat`}>
                       <div className="text-center mt-10">
                         <h1 className={`text-white text-4xl font-semibold  ${lang ? "rtl" : ""}`}>{item?.Name}</h1>
@@ -187,14 +187,14 @@ const SwiperSlider: React.FC<SwiperSliderProps> = ({ params }) => {
                               const isActive = cart[mealType]?.some((cartItem: ProductsModels) => cartItem.id == prodctItem.id) ?? false;
 
                               return (
-                                <div className={`flex flex-col w-[49%] cursor-pointer sm:w-[100%]`} key={`${prodctItem?.id}-pro`} data-aos="fade-left">
-                                  <div className={`relative`} onClick={() => handleAddToCart(prodctItem)}>
+                                <div className={`flex flex-col w-[49%] cursor-pointer sm:w-[100%] px-4`} key={`${prodctItem?.id}-pro`} data-aos="fade-left">
+                                  <div className={`relative productShadow rounded-3xl`} onClick={() => handleAddToCart(prodctItem)}>
                                     {isActive && (
-                                      <div className="w-full h-full bg-[#9efeb98a] absolute flex items-center justify-center rounded-lg">
+                                      <div className="w-full h-full bg-[#9efeb98a] absolute flex items-center justify-center rounded-3xl">
                                         <CheckIcon sx={{ width: "100px", fontSize: "80px", fill: "white" }} />
                                       </div>
                                     )}
-                                    <Image width={349} height={70} className="w-[389px] h-[232px] object-cover rounded-lg" src={prodctItem?.ImageUrl} alt="" priority />
+                                    <Image width={349} height={70} className="w-[389px] h-[232px] object-cover rounded-3xl" src={prodctItem?.ImageUrl} alt="" priority />
                                   </div>
                                   <h1 className={`text-black text-xl mt-4 font-semibold sm:text-md sm:font-bold sm:word-break  ${lang ? "rtl" : ""}`}>{prodctItem?.Name}</h1>
                                 </div>
@@ -208,7 +208,7 @@ const SwiperSlider: React.FC<SwiperSliderProps> = ({ params }) => {
               })}
           </Swiper>
           {isLastSlide && (
-            <div className="bg-[#2f52a0] p-4 mt-5 rounded-xl">
+            <div className="bg-[#2f52a0] p-4 mt-8 rounded-xl">
               {allCategoriesSelected() ? (
                 <Link href={"/online_ordering/summery"}>
                   <button className={`w-full text-white text-center rounded-xl textShadow  ${lang ? "rtl" : ""}`}>{t("Order")}</button>

@@ -7,7 +7,7 @@ import location_imgs from "../../assests/test.png";
 import alert_img from "../../assests/aleert.png";
 import onloadImg from "../../assests/white_logo.png";
 import SearchComponent from "../components/SearchComponent/SearchComponent";
-import { getFromLocalStorage, setInLocalStorage } from "../utills/LocalStorageUtills";
+import { getFromLocalStorage, removeFromLocalStorage, setInLocalStorage } from "../utills/LocalStorageUtills";
 // import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
@@ -26,7 +26,6 @@ const OnlineOrdering: React.FC = () => {
     Name: inputvalue,
     location: selectPosition,
   };
-  setInLocalStorage("location", body || null);
 
   const handleRoute = () => {
     if (selectPosition || inputvalue.trim() !== "") {
@@ -51,12 +50,27 @@ const OnlineOrdering: React.FC = () => {
     AOS.refresh();
   }, []);
 
+  const handleInputText = (e) => {
+    setInLocalStorage("location", body);
+
+    setinputvalue(e.target.value);
+    setInLocalStorage("username", e.target.value);
+    removeFromLocalStorage("place");
+  };
+
+  useEffect(() => {
+    let defaultUsername = getFromLocalStorage("username");
+    setinputvalue(defaultUsername);
+  }, []);
   return (
     <section className="main-bg">
       <div className="page_width">
         <div data-aos="fade-right">
           <div className="flex justify-center h-full p-10 sm:p-4">
-          <Link href={"/"}>  <Image width={200} height={100} src={onloadImg} alt="onload img" /></Link>
+            <Link href={"/"}>
+              {" "}
+              <Image width={200} height={100} src={onloadImg} alt="onload img" />
+            </Link>
           </div>
 
           <div className="" data-aos="fade-down">
@@ -67,13 +81,12 @@ const OnlineOrdering: React.FC = () => {
               <Image width={100} height={100} src={alert_img} alt="onload img" />
             </div>
             <div className="bg-[#ded4c4] text-center pt-5 rounded-xl">
-            
               <SearchComponent selectPosition={selectPosition} setSelectPosition={setSelectPosition} />
             </div>
             <p role="button" className={`text-[#5663FF] text-xl font-bold text-center pt-3 sm:text-sm  ${lang ? "rtl" : ""}`} onClick={() => setshowinput(!showinput)}>
               {t("IRatherusemyName")}
             </p>
-            {showinput && <input type="text" placeholder={t("AutoCompleteInput")} className={`p-3 sm:text-sm outline-none bg-[#ded4c4] border border-[#000] w-[90%] m-auto text-black rounded-lg mt-2 ${lang ? "rtl" : ""} sm:w-full `} onChange={(e) => setinputvalue(e.target.value)} />}
+            {showinput && <input type="text" value={inputvalue} placeholder={t("AutoCompleteInput")} className={`p-3  sm:text-sm outline-none bg-[#ded4c4] border border-[#aba397] w-[96%] m-auto text-black rounded-lg mt-2 ${lang ? "rtl" : ""} sm:w-full `} onChange={handleInputText} />}
           </div>
           <div className="flex justify-center py-8 pt-32 sm:pt-8">
             <Image width={200} height={200} src={location_imgs} alt="onload img" className="mx-auto sm:m-0 sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5" priority />

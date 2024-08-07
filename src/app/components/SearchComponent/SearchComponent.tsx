@@ -1,14 +1,13 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import OutlinedInput from "@mui/material/OutlinedInput";
-import Button from "@mui/material/Button";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import debounce from "lodash.debounce";
 import { useTranslation } from "react-i18next";
-import { getFromLocalStorage } from "@/app/utills/LocalStorageUtills";
+import { getFromLocalStorage, removeFromLocalStorage, setInLocalStorage } from "@/app/utills/LocalStorageUtills";
 
 const NOMINATIM_BASE_URL = "https://nominatim.openstreetmap.org/search?";
 
@@ -25,11 +24,16 @@ interface Place {
 }
 
 const SearchComponent: React.FC<SearchComponentProps> = ({ selectPosition, setSelectPosition }) => {
-  const [searchText, setSearchText] = useState<string>("");
+  const savedPlace = getFromLocalStorage("place");
+  const initialSearchText = savedPlace ? JSON.parse(savedPlace).display_name : "";
+
+  const [searchText, setSearchText] = useState<string>(initialSearchText);
   const [listPlace, setListPlace] = useState<Place[]>([]);
   const { t } = useTranslation();
-
   const [lang, setLang] = useState(false);
+  const inputRef = useRef(null);
+  const listRef = useRef(null);
+  const [isSelecting, setIsSelecting] = useState(false);
 
   const fetchPlaces = async (query: string) => {
     if (!query) {
@@ -59,6 +63,7 @@ const SearchComponent: React.FC<SearchComponentProps> = ({ selectPosition, setSe
   useEffect(() => {
     debouncedFetchPlaces(searchText);
   }, [searchText]);
+
   useEffect(() => {
     if (getFromLocalStorage("lang") === "he") {
       setLang(true);
@@ -66,18 +71,48 @@ const SearchComponent: React.FC<SearchComponentProps> = ({ selectPosition, setSe
       setLang(false);
     }
   }, [getFromLocalStorage("lang")]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        inputRef.current && 
+        !inputRef.current.contains(event.target as Node) && 
+        listRef.current && 
+        !listRef.current.contains(event.target as Node) &&
+        !isSelecting
+      ) {
+        setListPlace([]); // Clear suggestions if click is outside the input
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [inputRef, listRef, isSelecting]);
+
   return (
     <>
-      <OutlinedInput value={searchText} placeholder={t("AutoComplete")} className={`w-[90%] m-auto ${lang ? "rtl" : ""}`} onChange={(e) => setSearchText(e.target.value)} />
-      <List>
+      <OutlinedInput
+        value={searchText}
+        placeholder={t("AutoComplete")}
+        className={`w-[96%] m-auto ${lang ? "rtl" : ""}`}
+        onChange={(e) => setSearchText(e.target.value)}
+        ref={inputRef}
+      />
+      <List ref={listRef}>
         {listPlace.map((item) => (
           <ListItem
             button
             key={item.place_id}
-            onClick={() => {
+            onMouseDown={() => setIsSelecting(true)}
+            onMouseUp={() => {
+              setIsSelecting(false);
               setSelectPosition(item);
               setSearchText(item.display_name); // Set the input field with the selected item's display name
               setListPlace([]); // Clear suggestions after selection
+              setInLocalStorage("place", JSON.stringify(item)); // Store the selected place in localStorage
+              removeFromLocalStorage("username")
             }}
           >
             <ListItemButton>

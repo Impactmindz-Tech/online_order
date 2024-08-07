@@ -11,19 +11,19 @@ import { doc, setDoc } from "firebase/firestore";
 import { db } from "@/app/config/firebase";
 import { useRouter } from "next/navigation";
 import { resetCart } from "@/app/store/slice/ProductSlice";
-import { getFromLocalStorage } from "@/app/utills/LocalStorageUtills";
+import { getFromLocalStorage, removeFromLocalStorage } from "@/app/utills/LocalStorageUtills";
 import { useTranslation } from "react-i18next";
 import "../../../i18n";
 import AOS from "aos";
 import "aos/dist/aos.css";
+
 const ViewMeals: React.FC = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const router = useRouter();
   const [langText, setLangText] = useState<string | null>(null);
   const [lang, setLang] = useState(false);
-
-  const [groupedByMeal, setGroupedByMeal] = useState<Record<string, ProductsModels[]>>({});
+  const [location, setLocation] = useState("");
   const [selectedOptions, setSelectedOptions] = useState<{ [key: string]: boolean }>({
     Tomorrow: false,
     Week: false,
@@ -31,10 +31,16 @@ const ViewMeals: React.FC = () => {
   });
 
   const mealData = useSelector((state: RootState) => state.Product.cart);
+
   // Handle checkbox change
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, checked } = event.target;
-    setSelectedOptions((prev) => ({ ...prev, [name]: checked }));
+    const { name } = event.target;
+    setSelectedOptions({
+      Tomorrow: false,
+      Week: false,
+      Staying: false,
+      [name]: true,
+    });
   };
 
   // Handle form submission
@@ -47,7 +53,7 @@ const ViewMeals: React.FC = () => {
       });
       router.push("/online_ordering/thankyou");
       dispatch(resetCart());
-      localStorage.clear();
+      removeFromLocalStorage("location");
     } catch (error) {
       console.error("An error occurred", error);
     }
@@ -73,33 +79,30 @@ const ViewMeals: React.FC = () => {
     } else {
       setLang(false);
     }
-  }, [getFromLocalStorage("lang")]);
+
+    setLocation(getFromLocalStorage("place") || getFromLocalStorage("username"));
+  }, []);
+
   return (
     <section className="main-bg">
       <div className="page_width h-full" data-aos="fade-down">
         <div className="flex justify-center h-full p-10">
           <Link href={"/"}>
-            {" "}
             <Image width={200} height={100} src={onloadImg} alt="onload img" />
           </Link>
         </div>
         <div className={`${lang ? "flex justify-end" : ""}`}>
           <Link href={"/online_ordering/category"}>
-            {" "}
             <button className={`text-[#fff] bg-[#ded4c4] p-3 rounded-xl font-bold  ${lang ? "rtl" : ""}`}> {t("Back")}</button>
           </Link>
         </div>
 
-        {/* Render meals grouped by type */}
-
         {mealData && Object.keys(mealData).length > 0 ? (
           Object.keys(mealData).map((mealType) => (
-            <div key={mealType} className={`pt-5  ${lang ? "rtl" : ""}`}>
-              {mealType === "breakfast" && <h1 className="text-white text-xl">{langText === '"ru"' ? "Завтрак" : langText === '"he"' ? "ארוחת בוקר" : "Breakfast"}</h1>}
-              {mealType === "lunch" && <h1 className="text-white text-xl">{langText === '"ru"' ? "обед" : langText === '"he"' ? "ארוחת צהריים " : "lunch"}</h1>}
-              {mealType === "dinner" && <h1 className="text-white text-xl">{langText === '"ru"' ? "ужин" : langText === '"he"' ? "אֲרוּחַת עֶרֶב" : "dinner"}</h1>}
-
-              {/* <h1 className="text-white text-xl">{mealType.charAt(0).toUpperCase() + mealType.slice(1)}</h1> */}
+            <div key={mealType} className={`pt-5 capitalize font-semibold text-black ${lang ? "rtl" : ""}`}>
+              {mealType === "breakfast" && <h1 className=" text-xl">{langText === '"ru"' ? "Завтрак" : langText === '"he"' ? "ארוחת בוקר" : "Breakfast"}</h1>}
+              {mealType === "lunch" && <h1 className=" text-xl">{langText === '"ru"' ? "обед" : langText === '"he"' ? "ארוחת צהריים " : "lunch"}</h1>}
+              {mealType === "dinner" && <h1 className=" text-xl">{langText === '"ru"' ? "ужин" : langText === '"he"' ? "אֲרוּחַת עֶרֶב" : "dinner"}</h1>}
               {mealData[mealType as keyof typeof mealData]?.length > 0 ? (
                 mealData[mealType as keyof typeof mealData].map((item: ProductsModels) => (
                   <div key={item.id} className="pt-3">
@@ -116,7 +119,7 @@ const ViewMeals: React.FC = () => {
         )}
 
         <div className="pt-10 ">
-          <h1 className={`bg-[#eadecf] p-3 pl-6 rounded-lg  ${lang ? "rtl" : ""}`}> {t("location")}</h1>
+          <h1 className={`bg-[#eadecf] p-3 pl-6 rounded-lg  ${lang ? "rtl" : ""}`}>{location}</h1>
           <div className="pt-5">
             <label className={`custom-checkbox ${lang ? "flex justify-end" : ""}`}>
               <input type="checkbox" name="Tomorrow" id="Tomorrow" checked={selectedOptions.Tomorrow} onChange={handleCheckboxChange} />

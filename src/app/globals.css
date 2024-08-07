@@ -32,16 +32,14 @@ body {
   }
 } */
 
-
-.page_width{
+.page_width {
   max-width: 768px;
   width: 100%;
   margin: 0 auto;
   padding: 0 20px;
 }
 
-
-.hero_section{
+.hero_section {
   background: url("../assests/onload_img.png");
   background-position: center;
   background-size: cover;
@@ -50,7 +48,7 @@ body {
   width: 100%;
 }
 
-.main-bg{
+.main-bg {
   background: url(../assests/bg-main.png);
   background-position: center;
   background-size: cover;
@@ -59,8 +57,8 @@ body {
   width: 100%;
 }
 
-.transform{
-  transform: translate(-50% ,-50%);
+.transform {
+  transform: translate(-50%, -50%);
 }
 
 .swiper-pagination {
@@ -78,72 +76,27 @@ body {
 .swiper-button-prev {
   bottom: 90px !important;
   top: 70% !important;
-
 }
 
 .aos-animate {
   opacity: 1 !important;
   transform: none !important;
 }
-.titleHeading{
+.titleHeading {
   text-shadow: 1px 1px 1px rgb(0, 0, 0);
-
 }
-.textShadow{
+.textShadow {
   text-shadow: 1px 2px 2px rgb(27, 27, 27);
 }
 
-
 .swiper-pagination-bullet {
-  
- opacity: 1 !important;
+  opacity: 1 !important;
   background: white !important;
-
 }
-
 
 .swiper-pagination-bullet-active {
-  background: #2F52A0 !important;
+  background: #2f52a0 !important;
 }
-
-
-
-
-
-.swiper-button-prev, .swiper-button-next {
-  color: #fff; /* Change the color of the arrows */
-  background-color: rgba(0, 0, 0, 0.5); /* Add a background color */
-  border-radius: 5px; /* Make the buttons circular */
-  width: 40px; /* Set the width */
-  height: 40px; /* Set the height */
-  display: flex; /* Center the arrow inside the button */
-  justify-content: center; /* Center the arrow horizontally */
-  align-items: center; /* Center the arrow vertically */
-  transition: background-color 0.3s ease; /* Add a transition effect */
-}
-.swiper-button-prev{
-  left:2px !important;
-}
-.swiper-button-next{
-  right: 5px !important;
-}
-.swiper-button-prev:hover, .swiper-button-next:hover {
-  background-color: rgba(0, 0, 0, 0.8); /* Darken the background on hover */
-}
-
-.swiper-button-prev:after, .swiper-rtl .swiper-button-prev:after {
-  font-size: 20px !important;
-  color: white;
-}
-
-.swiper-button-next:after, .swiper-rtl .swiper-button-prev:after {
-  font-size: 20px !important;
-  color: white;
-}
-
-
-
-
 
 .custom-checkbox {
   display: flex;
@@ -193,14 +146,17 @@ body {
   color: #000;
 }
 .rtl {
-  direction: rtl;
+  direction: rtl !important;
+  text-align: right !important;
+  padding-right: 20px !important;
 }
 
-
-
+.productShadow {
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
 
 @media (max-width: 639px) {
-  .swiper-button-next{
+  .swiper-button-next {
     right: 2px !important;
   }
 }

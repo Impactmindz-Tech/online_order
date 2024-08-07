@@ -16,6 +16,7 @@ import onloadImg from "../../../assests/white_logo.png";
 import Link from "next/link";
 import AOS from "aos";
 import "aos/dist/aos.css";
+
 const Category: React.FC = () => {
   const router = useRouter();
   const { t, i18n } = useTranslation();
@@ -70,15 +71,15 @@ const Category: React.FC = () => {
   const isCategoryComplete = (mealType: string) => {
     const mappedMealType = getMealTypeFromId(mealType);
     const englishMealType = mealTypeMapping[mappedMealType] || mappedMealType;
-    const selectedProducts = cart[englishMealType as keyof typeof cart] || [];
+    const selectedProducts = cart?.[englishMealType as keyof typeof cart] || [];
 
-    if (products.length === 0) {
+    if (products?.length === 0) {
       return selectedProducts.length > 0;
     }
 
-    const categoryProducts = products.filter((product) => mealTypeMapping[product.meal.Name.toLowerCase()] === englishMealType);
+    const categoryProducts = products?.filter((product) => mealTypeMapping[product.meal.Name.toLowerCase()] === englishMealType);
 
-    if (categoryProducts.length === 0) {
+    if (categoryProducts?.length === 0) {
       return selectedProducts.length > 0;
     }
 
@@ -109,6 +110,7 @@ const Category: React.FC = () => {
       setLang(false);
     }
   }, [getFromLocalStorage("lang")]);
+
   const handleNavigate = (item: CategoryModels) => {
     setInLocalStorage("categoryProduct", item?.Name);
     router.push("/online_ordering/products");
@@ -126,10 +128,13 @@ const Category: React.FC = () => {
                 <Image width={200} height={100} src={onloadImg} alt="onload img" />
               </Link>
             </div>
-            <div>
+            <div className="flex  items-center justify-between">
               <Link href={"/online_ordering"} className={` ${lang ? "flex justify-end" : ""}`}>
                 <button className={`text-[#fff] bg-[#ded4c4] p-3 rounded-xl font-bold ${lang ? "rtl" : ""}`}>{t("Back")}</button>
               </Link>
+              <div className={`flex-1  font-bold text-white text-xl ${lang ? "rtl" : "text-center"}`}>
+                <h1>{t("categoryList")}</h1>
+              </div>
             </div>
             {categories?.map((item) => {
               const mealType = item.id;
