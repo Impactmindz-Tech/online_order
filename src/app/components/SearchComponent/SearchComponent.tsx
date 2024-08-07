@@ -31,8 +31,8 @@ const SearchComponent: React.FC<SearchComponentProps> = ({ selectPosition, setSe
   const [listPlace, setListPlace] = useState<Place[]>([]);
   const { t } = useTranslation();
   const [lang, setLang] = useState(false);
-  const inputRef = useRef(null);
-  const listRef = useRef(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const listRef = useRef<HTMLUListElement>(null);
   const [isSelecting, setIsSelecting] = useState(false);
 
   const fetchPlaces = async (query: string) => {
@@ -74,13 +74,7 @@ const SearchComponent: React.FC<SearchComponentProps> = ({ selectPosition, setSe
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        inputRef.current && 
-        !inputRef.current.contains(event.target as Node) && 
-        listRef.current && 
-        !listRef.current.contains(event.target as Node) &&
-        !isSelecting
-      ) {
+      if (inputRef.current && !inputRef.current.contains(event.target as Node) && listRef.current && !listRef.current.contains(event.target as Node) && !isSelecting) {
         setListPlace([]); // Clear suggestions if click is outside the input
       }
     };
@@ -93,13 +87,7 @@ const SearchComponent: React.FC<SearchComponentProps> = ({ selectPosition, setSe
 
   return (
     <>
-      <OutlinedInput
-        value={searchText}
-        placeholder={t("AutoComplete")}
-        className={`w-[96%] m-auto ${lang ? "rtl" : ""}`}
-        onChange={(e) => setSearchText(e.target.value)}
-        ref={inputRef}
-      />
+      <OutlinedInput value={searchText} placeholder={t("AutoComplete")} className={`w-[96%] m-auto ${lang ? "rtl" : ""}`} onChange={(e) => setSearchText(e.target.value)} ref={inputRef} />
       <List ref={listRef}>
         {listPlace.map((item) => (
           <ListItem
@@ -112,7 +100,7 @@ const SearchComponent: React.FC<SearchComponentProps> = ({ selectPosition, setSe
               setSearchText(item.display_name); // Set the input field with the selected item's display name
               setListPlace([]); // Clear suggestions after selection
               setInLocalStorage("place", JSON.stringify(item)); // Store the selected place in localStorage
-              removeFromLocalStorage("username")
+              removeFromLocalStorage("username");
             }}
           >
             <ListItemButton>
