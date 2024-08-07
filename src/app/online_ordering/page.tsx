@@ -19,9 +19,9 @@ const OnlineOrdering: React.FC = () => {
   const { t } = useTranslation();
   const router = useRouter();
   const [lang, setLang] = useState(false);
-  const [selectPosition, setSelectPosition] = useState<any>(null);
+  const [selectPosition, setSelectPosition] = useState(getFromLocalStorage('place')||null);
   const [showinput, setshowinput] = useState(false);
-  const [inputvalue, setinputvalue] = useState("");
+  const [inputvalue, setinputvalue] = useState(getFromLocalStorage('username')||null);
   let body = {
     Name: inputvalue,
     location: selectPosition,
@@ -92,7 +92,7 @@ const OnlineOrdering: React.FC = () => {
             <Image width={200} height={200} src={location_imgs} alt="onload img" className="mx-auto sm:m-0 sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5" priority />
           </div>
           {/* <Link href={"/online_ordering/category"}> */}
-          <button className={`bg-[#2F52A0] py-4 w-full text-white font-semibold text-xl rounded-xl sm:text-sm sm:my-2 textShadow ${lang ? "rtl" : ""}`} onClick={handleRoute}>
+          <button className={`bg-[#2F52A0] py-4 w-full text-white font-semibold text-xl rounded-xl sm:text-sm sm:my-2  z-50 textShadow ${lang ? "rtl" : ""}`} onClick={handleRoute}>
             {t("Continue")}
           </button>
           {/* </Link> */}

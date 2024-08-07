@@ -44,12 +44,26 @@ const ViewMeals: React.FC = () => {
   };
 
   // Handle form submission
+
   const handleSubmit = async () => {
+    let locations: { Name: string; location: string | null };
+    if (getFromLocalStorage("place")) {
+      locations = {
+        Name: "Null",
+        location: JSON.parse(`${getFromLocalStorage("place")}`),
+      };
+    } else {
+      locations = {
+        Name: `${getFromLocalStorage("username")}`,
+        location: null,
+      };
+    }
+
     try {
       await setDoc(doc(db, "Orders", Date.now().toString()), {
         schedule: selectedOptions,
         summary: mealData,
-        location: getFromLocalStorage("location") ? getFromLocalStorage("location") : null,
+        location: locations,
       });
       router.push("/online_ordering/thankyou");
       dispatch(resetCart());
@@ -79,8 +93,12 @@ const ViewMeals: React.FC = () => {
     } else {
       setLang(false);
     }
-
-    setLocation(getFromLocalStorage("place") || getFromLocalStorage("username"));
+    if (getFromLocalStorage("place")) {
+      let place = JSON.parse(getFromLocalStorage("place"));
+      setLocation(place.display_name);
+    } else {
+      setLocation(getFromLocalStorage("username"));
+    }
   }, []);
 
   return (
