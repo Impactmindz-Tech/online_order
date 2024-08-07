@@ -50,7 +50,7 @@ const OnlineOrdering: React.FC = () => {
     AOS.refresh();
   }, []);
 
-  const handleInputText = (e) => {
+  const handleInputText = (e: any) => {
     setInLocalStorage("location", body);
 
     setinputvalue(e.target.value);
