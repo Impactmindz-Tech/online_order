@@ -25,7 +25,7 @@ const Category: React.FC = () => {
   const cart = useSelector((state: RootState) => state.Product.cart);
   const products = useSelector((state: RootState) => state.Product.products);
   const savedLanguage = getFromLocalStorage("lang") || "en";
-  const [lang, setLang] = useState(false);
+  const [lang, setLang] = useState<boolean>(false);
 
   const mealTypeMapping: { [key: string]: string } = {
     "ארוחת בוקר": "breakfast",
@@ -51,21 +51,23 @@ const Category: React.FC = () => {
         } as CategoryModels;
       });
 
+      console.log("Fetched categories:", categoryList);
+
       const translatedData: CategoryModels[] = categoryList.map((item) => ({
         ...item,
-        Name: item.Name[i18n.language as any] || item.Name[savedLanguage as any] || "",
+        Name: item.Name[i18n.language as keyof typeof item.Name] || item.Name[savedLanguage as keyof typeof item.Name] || "",
       }));
       setCategories(translatedData);
     } catch (error) {
-      console.error(error);
+      console.error("Error fetching categories:", error);
     } finally {
       setLoading(false);
     }
   };
 
   const getMealTypeFromId = (id: string): string => {
-    const mealType = categories.find((cat) => cat.id === id)?.Name.toLowerCase();
-    return mealType || id;
+    const category = categories.find((cat) => cat.id === id);
+    return category ? category.Name.toLowerCase() : id;
   };
 
   const isCategoryComplete = (mealType: string) => {
@@ -73,22 +75,20 @@ const Category: React.FC = () => {
     const englishMealType = mealTypeMapping[mappedMealType] || mappedMealType;
     const selectedProducts = cart?.[englishMealType as keyof typeof cart] || [];
 
-    if (products?.length === 0) {
+    if (!products || products.length === 0) {
       return selectedProducts.length > 0;
     }
 
-    const categoryProducts = products?.filter((product) => mealTypeMapping[product.meal.Name.toLowerCase()] === englishMealType);
+    const categoryProducts = products.filter((product) => mealTypeMapping[product.meal.Name.toLowerCase()] === englishMealType);
 
-    if (categoryProducts?.length === 0) {
+    if (!categoryProducts || categoryProducts.length === 0) {
       return selectedProducts.length > 0;
     }
 
-    const categories = Array.from(new Set(categoryProducts.map((product) => product.category)));
-    const selectedCategories = Array.from(new Set(selectedProducts.map((product) => product.category)));
+    const categoriesSet = new Set(categoryProducts.map((product) => product.category));
+    const selectedCategoriesSet = new Set(selectedProducts.map((product) => product.category));
 
-    const isComplete = categories.length > 0 && categories.every((category) => selectedCategories.includes(category));
-
-    return isComplete;
+    return categoriesSet.size > 0 && Array.from(categoriesSet).every((category) => selectedCategoriesSet.has(category));
   };
 
   useEffect(() => {
@@ -104,12 +104,8 @@ const Category: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (getFromLocalStorage("lang") === "he") {
-      setLang(true);
-    } else {
-      setLang(false);
-    }
-  }, [getFromLocalStorage("lang")]);
+    setLang(getFromLocalStorage("lang") === "he");
+  }, []);
 
   const handleNavigate = (item: CategoryModels) => {
     setInLocalStorage("categoryProduct", item?.Name);
@@ -124,15 +120,14 @@ const Category: React.FC = () => {
           <div className="h-full">
             <div className="flex justify-center h-full p-10">
               <Link href={"/"}>
-                {" "}
                 <Image width={200} height={100} src={onloadImg} alt="onload img" />
               </Link>
             </div>
-            <div className="flex  items-center justify-between">
+            <div className="flex items-center justify-between">
               <Link href={"/online_ordering"} className={` ${lang ? "flex justify-end" : ""}`}>
                 <button className={`text-[#fff] bg-[#ded4c4] p-3 rounded-xl font-bold ${lang ? "rtl" : ""}`}>{t("Back")}</button>
               </Link>
-              <div className={`flex-1  font-bold text-white text-xl ${lang ? "rtl" : "text-center"}`}>
+              <div className={`flex-1 font-bold text-white text-xl ${lang ? "rtl" : "text-center"}`}>
                 <h1>{t("categoryList")}</h1>
               </div>
             </div>
@@ -142,9 +137,9 @@ const Category: React.FC = () => {
               return (
                 <div className="flex flex-col gap-5 py-5" key={item?.id} data-aos="flip-right">
                   <div className="w-full h-[185px] relative cursor-pointer" onClick={() => handleNavigate(item)}>
-                    <div className={`bg-[#00000083] absolute top-0 w-full h-full left-0 rounded-lg`}></div>
-                    <img className="object-cover w-full h-full rounded-lg" src={item?.ImageUrl} alt="category image" />
-                    <p className={`absolute top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 text-xl  text-white font-bold ${lang ? "rtl" : ""}`}>{item?.Name} </p>
+                    <div className={`bg-[#00000083] absolute top-0 w-full h-full left-0 rounded-lg productShadow`}></div>
+                    <Image className="object-cover rounded-lg opacity-80 " src={item?.ImageUrl || "/fallback-image.png"} alt="category image" layout="fill" objectFit="cover" placeholder="blur" blurDataURL="/path/to/low-quality-image.png" priority />
+                    <p className={`absolute top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 text-2xl textShadows  font-bold ${lang ? "rtl" : ""}`}>{item?.Name}</p>
                     {isComplete && (
                       <div className="absolute top-0 left-0 w-full h-full bg-[#9efeb98a] flex items-center justify-center z-10 rounded-lg">
                         <CheckIcon style={{ fontSize: 80, color: "white" }} />

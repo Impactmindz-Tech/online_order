@@ -164,7 +164,7 @@ const SwiperSlider: React.FC<SwiperSliderProps> = ({ params }) => {
           <div className="flex justify-center h-full p-10">
             <Link href={"/"}>
               {" "}
-              <Image width={200} height={100} src={onloadImg} alt="onload img" />
+              <Image width={200} height={100} src={onloadImg} alt="onload img" priority />
             </Link>
           </div>
 

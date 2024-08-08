@@ -154,7 +154,14 @@ body {
 .productShadow {
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
+.textShadows {
+  color: white; /* Text color */
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Shadow effect */
+}
 
+.progressbar-progress{
+  background-color: #2e519e !important;
+}
 @media (max-width: 639px) {
   .swiper-button-next {
     right: 2px !important;
