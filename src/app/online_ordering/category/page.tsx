@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/app/config/firebase";
-import { CategoryModels as ImportedCategoryModels } from "@/app/modal/CategoryModels";
+import CategoryModels from "@/app/modal/CategoryModels";
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/store/Store";
 import CheckIcon from "@mui/icons-material/Check";
@@ -20,7 +20,7 @@ import "aos/dist/aos.css";
 const Category: React.FC = () => {
   const router = useRouter();
   const { t, i18n } = useTranslation();
-  const [categories, setCategories] = useState<ImportedCategoryModels[]>([]);
+  const [categories, setCategories] = useState<CategoryModels[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const cart = useSelector((state: RootState) => state.Product.cart);
   const products = useSelector((state: RootState) => state.Product.products);
@@ -43,22 +43,19 @@ const Category: React.FC = () => {
     setLoading(true);
     try {
       const querySnapshot = await getDocs(collection(db, "Mealsdemo"));
-      const categoryList: ImportedCategoryModels[] = querySnapshot.docs.map((doc) => {
-        const data = doc.data() as Omit<ImportedCategoryModels, "id">;
+      const categoryList: CategoryModels[] = querySnapshot.docs.map((doc) => {
+        const data = doc.data() as Omit<CategoryModels, "id">;
         return {
           ...data,
           id: doc.id,
-        } as ImportedCategoryModels;
+        } as CategoryModels;
       });
 
       console.log("Fetched categories:", categoryList);
 
-      const translatedData: ImportedCategoryModels[] = categoryList.map((item) => ({
+      const translatedData: CategoryModels[] = categoryList.map((item) => ({
         ...item,
-        Name: {
-          ...item.Name,
-          [i18n.language]: item.Name[i18n.language] || item.Name[savedLanguage] || "",
-        },
+        Name: item.Name[i18n.language as keyof typeof item.Name] || item.Name[savedLanguage as keyof typeof item.Name] || "",
       }));
       setCategories(translatedData);
     } catch (error) {
@@ -70,7 +67,7 @@ const Category: React.FC = () => {
 
   const getMealTypeFromId = (id: string): string => {
     const category = categories.find((cat) => cat.id === id);
-    return category ? category.Name[i18n.language] || "" : id;
+    return category ? category.Name.toLowerCase() : id;
   };
 
   const isCategoryComplete = (mealType: string) => {
@@ -110,8 +107,8 @@ const Category: React.FC = () => {
     setLang(getFromLocalStorage("lang") === "he");
   }, []);
 
-  const handleNavigate = (item: ImportedCategoryModels) => {
-    setInLocalStorage("categoryProduct", item?.Name[i18n.language] || item?.Name[savedLanguage] || "");
+  const handleNavigate = (item: CategoryModels) => {
+    setInLocalStorage("categoryProduct", item?.Name);
     router.push("/online_ordering/products");
   };
 
@@ -142,7 +139,7 @@ const Category: React.FC = () => {
                   <div className="w-full h-[185px] relative cursor-pointer" onClick={() => handleNavigate(item)}>
                     <div className={`bg-[#00000083] absolute top-0 w-full h-full left-0 rounded-lg productShadow`}></div>
                     <Image className="object-cover rounded-lg opacity-80 " src={item?.ImageUrl || "/fallback-image.png"} alt="category image" layout="fill" objectFit="cover" placeholder="blur" blurDataURL="/path/to/low-quality-image.png" priority />
-                    <p className={`absolute top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 text-2xl textShadows  font-bold ${lang ? "rtl" : ""}`}>{item?.Name[i18n.language] || item?.Name[savedLanguage]}</p>
+                    <p className={`absolute top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 text-2xl textShadows  font-bold ${lang ? "rtl" : ""}`}>{item?.Name}</p>
                     {isComplete && (
                       <div className="absolute top-0 left-0 w-full h-full bg-[#9efeb98a] flex items-center justify-center z-10 rounded-lg">
                         <CheckIcon style={{ fontSize: 80, color: "white" }} />
