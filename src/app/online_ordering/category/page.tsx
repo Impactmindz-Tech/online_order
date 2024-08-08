@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/app/config/firebase";
-import CategoryModels from "@/app/modal/CategoryModels";
+import { CategoryModels as ImportedCategoryModels } from "@/app/modal/CategoryModels";
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/store/Store";
 import CheckIcon from "@mui/icons-material/Check";
@@ -17,18 +17,10 @@ import Link from "next/link";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
-// Define CategoryModels with appropriate types
-interface CategoryModels {
-  id: string;
-  Name: { [key: string]: string }; // Object with language keys
-  ImageUrl: string;
-  // Add other fields as needed
-}
-
 const Category: React.FC = () => {
   const router = useRouter();
   const { t, i18n } = useTranslation();
-  const [categories, setCategories] = useState<CategoryModels[]>([]);
+  const [categories, setCategories] = useState<ImportedCategoryModels[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const cart = useSelector((state: RootState) => state.Product.cart);
   const products = useSelector((state: RootState) => state.Product.products);
@@ -51,17 +43,17 @@ const Category: React.FC = () => {
     setLoading(true);
     try {
       const querySnapshot = await getDocs(collection(db, "Mealsdemo"));
-      const categoryList: CategoryModels[] = querySnapshot.docs.map((doc) => {
-        const data = doc.data() as Omit<CategoryModels, "id">;
+      const categoryList: ImportedCategoryModels[] = querySnapshot.docs.map((doc) => {
+        const data = doc.data() as Omit<ImportedCategoryModels, "id">;
         return {
           ...data,
           id: doc.id,
-        } as CategoryModels;
+        } as ImportedCategoryModels;
       });
 
       console.log("Fetched categories:", categoryList);
 
-      const translatedData: CategoryModels[] = categoryList.map((item) => ({
+      const translatedData: ImportedCategoryModels[] = categoryList.map((item) => ({
         ...item,
         Name: {
           ...item.Name,
@@ -118,7 +110,7 @@ const Category: React.FC = () => {
     setLang(getFromLocalStorage("lang") === "he");
   }, []);
 
-  const handleNavigate = (item: CategoryModels) => {
+  const handleNavigate = (item: ImportedCategoryModels) => {
     setInLocalStorage("categoryProduct", item?.Name[i18n.language] || item?.Name[savedLanguage] || "");
     router.push("/online_ordering/products");
   };
