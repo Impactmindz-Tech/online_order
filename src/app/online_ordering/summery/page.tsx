@@ -95,7 +95,7 @@ const ViewMeals: React.FC = () => {
     }
     if (getFromLocalStorage("place")) {
       let place = JSON.parse(getFromLocalStorage("place"));
-      setLocation(place.display_name);
+      setLocation(place.placename);
     } else {
       setLocation(getFromLocalStorage("username"));
     }

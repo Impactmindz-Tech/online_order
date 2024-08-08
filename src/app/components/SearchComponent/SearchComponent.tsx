@@ -5,72 +5,70 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
-import debounce from "lodash.debounce";
 import { useTranslation } from "react-i18next";
 import { getFromLocalStorage, removeFromLocalStorage, setInLocalStorage } from "@/app/utills/LocalStorageUtills";
-
-const NOMINATIM_BASE_URL = "https://nominatim.openstreetmap.org/search?";
 
 interface SearchComponentProps {
   selectPosition: any;
   setSelectPosition: React.Dispatch<React.SetStateAction<any>>;
+  places: PlaceLocation[];
+}
+interface PlaceLocation {
+  city: string;
+  country: string;
+  near_by: string;
+  pincode: number;
+  placename: string;
+  state: string;
+  town: string;
+  id: string;
 }
 
-interface Place {
-  place_id: string;
-  lat: string;
-  lon: string;
-  display_name: string;
-}
-
-const SearchComponent: React.FC<SearchComponentProps> = ({ selectPosition, setSelectPosition }) => {
+const SearchComponent: React.FC<SearchComponentProps> = ({ selectPosition, setSelectPosition, places }) => {
   const savedPlace = getFromLocalStorage("place");
-  const initialSearchText = savedPlace ? JSON.parse(savedPlace).display_name : "";
+  const initialSearchText = savedPlace ? JSON.parse(savedPlace).placename : "";
 
   const [searchText, setSearchText] = useState<string>(initialSearchText);
-  const [listPlace, setListPlace] = useState<Place[]>([]);
+  const [listPlace, setListPlace] = useState<PlaceLocation[]>([]);
   const { t } = useTranslation();
   const [lang, setLang] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
   const [isSelecting, setIsSelecting] = useState(false);
 
-  const fetchPlaces = async (query: string) => {
-    if (!query) {
-      setListPlace([]);
-      return;
-    }
+  useEffect(() => {
+    // Clear suggestions on initial render
+    setListPlace([]);
+  }, []);
 
-    const params = {
-      q: query,
-      format: "json",
-      addressdetails: "1",
-      polygon_geojson: "0",
+  useEffect(() => {
+    const filterPlaces = () => {
+      if (!searchText) {
+        setListPlace([]);
+        return;
+      }
+
+      const filteredPlaces = places?.filter((place) => place.placename?.toLowerCase().includes(searchText.toLowerCase())) || [];
+      setListPlace(filteredPlaces);
     };
-    const queryString = new URLSearchParams(params).toString();
 
-    try {
-      const response = await fetch(`${NOMINATIM_BASE_URL}${queryString}`);
-      const places: Place[] = await response.json();
-      setListPlace(places);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const debouncedFetchPlaces = debounce(fetchPlaces, 300);
+    filterPlaces();
+  }, [searchText, places]);
 
   useEffect(() => {
-    debouncedFetchPlaces(searchText);
-  }, [searchText]);
+    setLang(getFromLocalStorage("lang") === "he");
+  }, []);
 
   useEffect(() => {
-    if (getFromLocalStorage("lang") === "he") {
-      setLang(true);
-    } else {
-      setLang(false);
+    const username = getFromLocalStorage("username");
+    if (username) {
+      removeFromLocalStorage("place"); // Remove place if username exists in localStorage
+      setSearchText(""); // Clear the search text
+      setSelectPosition(null); // Clear the selected position
+    } else if (savedPlace) {
+      setSelectPosition(JSON.parse(savedPlace));
     }
-  }, [getFromLocalStorage("lang")]);
+  }, [savedPlace, setSelectPosition]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -88,27 +86,29 @@ const SearchComponent: React.FC<SearchComponentProps> = ({ selectPosition, setSe
   return (
     <>
       <OutlinedInput value={searchText} placeholder={t("AutoComplete")} className={`w-[96%] m-auto ${lang ? "rtl" : ""}`} onChange={(e) => setSearchText(e.target.value)} ref={inputRef} />
-      <List ref={listRef}>
-        {listPlace.map((item) => (
-          <ListItem
-            button
-            key={item.place_id}
-            onMouseDown={() => setIsSelecting(true)}
-            onMouseUp={() => {
-              setIsSelecting(false);
-              setSelectPosition(item);
-              setSearchText(item.display_name); // Set the input field with the selected item's display name
-              setListPlace([]); // Clear suggestions after selection
-              setInLocalStorage("place", JSON.stringify(item)); // Store the selected place in localStorage
-              removeFromLocalStorage("username");
-            }}
-          >
-            <ListItemButton>
-              <ListItemText primary={item.display_name} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
+      {searchText && listPlace.length > 0 && (
+        <List ref={listRef}>
+          {listPlace.map((item) => (
+            <ListItem
+              button
+              key={item.id}
+              onMouseDown={() => setIsSelecting(true)}
+              onMouseUp={() => {
+                setIsSelecting(false);
+                setSelectPosition(item);
+                setSearchText(item.placename); // Set the input field with the selected item's display name
+                setListPlace([]); // Clear suggestions after selection
+                setInLocalStorage("place", JSON.stringify(item)); // Store the selected place in localStorage
+                removeFromLocalStorage("username");
+              }}
+            >
+              <ListItemButton>
+                <ListItemText primary={item.placename} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+      )}
     </>
   );
 };
