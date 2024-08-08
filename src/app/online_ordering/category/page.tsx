@@ -1,9 +1,10 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/app/config/firebase";
+import CategoryModels from "@/app/modal/CategoryModels";
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/store/Store";
 import CheckIcon from "@mui/icons-material/Check";
@@ -16,13 +17,6 @@ import Link from "next/link";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
-interface CategoryModels {
-  id: string;
-  Name: string;
-  ImageUrl: string;
-  [key: string]: any;
-}
-
 const Category: React.FC = () => {
   const router = useRouter();
   const { t, i18n } = useTranslation();
@@ -31,7 +25,7 @@ const Category: React.FC = () => {
   const cart = useSelector((state: RootState) => state.Product.cart);
   const products = useSelector((state: RootState) => state.Product.products);
   const savedLanguage = getFromLocalStorage("lang") || "en";
-  const [lang, setLang] = useState<boolean>(false);
+  const [lang, setLang] = useState(false);
 
   const mealTypeMapping: { [key: string]: string } = {
     "ארוחת בוקר": "breakfast",
@@ -54,12 +48,12 @@ const Category: React.FC = () => {
         return {
           ...data,
           id: doc.id,
-        };
+        } as CategoryModels;
       });
 
       const translatedData: CategoryModels[] = categoryList.map((item) => ({
         ...item,
-        Name: item.Name[i18n.language as string] || item.Name[savedLanguage as string] || "",
+        Name: item.Name[i18n.language as any] || item.Name[savedLanguage as any] || "",
       }));
       setCategories(translatedData);
     } catch (error) {
@@ -115,7 +109,7 @@ const Category: React.FC = () => {
     } else {
       setLang(false);
     }
-  }, []);
+  }, [getFromLocalStorage("lang")]);
 
   const handleNavigate = (item: CategoryModels) => {
     setInLocalStorage("categoryProduct", item?.Name);
@@ -130,6 +124,7 @@ const Category: React.FC = () => {
           <div className="h-full">
             <div className="flex justify-center h-full p-10">
               <Link href={"/"}>
+                {" "}
                 <Image width={200} height={100} src={onloadImg} alt="onload img" />
               </Link>
             </div>
@@ -147,9 +142,9 @@ const Category: React.FC = () => {
               return (
                 <div className="flex flex-col gap-5 py-5" key={item?.id} data-aos="flip-right">
                   <div className="w-full h-[185px] relative cursor-pointer" onClick={() => handleNavigate(item)}>
-                    <div className={`bg-[#00000083] absolute top-0 w-full h-full productShadow left-0 rounded-lg`}></div>
-                    <Image className="object-cover w-full h-full rounded-lg " src={item?.ImageUrl} alt="category image" fill priority />
-                    <p className={`absolute top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 text-xl  text-white font-bold ${lang ? "rtl" : ""} textShadows`}>{item?.Name}</p>
+                    <div className={`bg-[#00000083] absolute top-0 w-full h-full left-0 rounded-lg productShadow`}></div>
+                    <Image className="object-cover w-full h-full rounded-lg " src={item?.ImageUrl} alt="category image" layout="fill" priority />
+                    <p className={`absolute top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 text-xl  text-white font-bold ${lang ? "rtl" : ""} textShadows`}>{item?.Name} </p>
                     {isComplete && (
                       <div className="absolute top-0 left-0 w-full h-full bg-[#9efeb98a] flex items-center justify-center z-10 rounded-lg">
                         <CheckIcon style={{ fontSize: 80, color: "white" }} />
