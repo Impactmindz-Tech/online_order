@@ -148,7 +148,7 @@ const Category: React.FC = () => {
                 <div className="flex flex-col gap-5 py-5" key={item?.id} data-aos="flip-right">
                   <div className="w-full h-[185px] relative cursor-pointer" onClick={() => handleNavigate(item)}>
                     <div className={`bg-[#00000083] absolute top-0 w-full h-full productShadow left-0 rounded-lg`}></div>
-                    <Image className="object-cover w-full h-full rounded-lg " src={item?.ImageUrl} alt="category image" fill />
+                    <Image className="object-cover w-full h-full rounded-lg " src={item?.ImageUrl} alt="category image" fill priority />
                     <p className={`absolute top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 text-xl  text-white font-bold ${lang ? "rtl" : ""} textShadows`}>{item?.Name}</p>
                     {isComplete && (
                       <div className="absolute top-0 left-0 w-full h-full bg-[#9efeb98a] flex items-center justify-center z-10 rounded-lg">
