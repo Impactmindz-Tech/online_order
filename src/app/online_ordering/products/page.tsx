@@ -137,7 +137,8 @@ const SwiperSlider: React.FC<SwiperSliderProps> = ({ params }) => {
 
   const handleSlideChange = () => {
     if (swiper) {
-      setIsLastSlide(swiper.activeIndex === swiper.slides?.length - 1);
+      const isLast = swiper.activeIndex === swiper.slides.length - 1;
+      setIsLastSlide(isLast);
     }
   };
 
@@ -201,6 +202,14 @@ const SwiperSlider: React.FC<SwiperSliderProps> = ({ params }) => {
                               );
                             })}
                         </div>
+
+                        {!isLastSlide && (
+                          <div className="bg-[#2f52a0] p-4 mt-8 rounded-xl">
+                            <button className={`w-full text-white text-center rounded-xl textShadow  ${lang ? "rtl" : ""}`} onClick={() => swiper.slideNext()}>
+                              {t("Next Slide")}
+                            </button>
+                          </div>
+                        )}
                       </div>
                     </SwiperSlide>
                   </div>
