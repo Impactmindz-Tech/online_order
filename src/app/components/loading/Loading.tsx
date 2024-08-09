@@ -26,9 +26,9 @@ const Loading = () => {
         <div className="w-64 my-5">
           <ProgressBar
             completed={progress}
-            bgColor="#2e519e" // Updated color
+           // bgColor="#2e519e" // Updated color
             height="6px" // Change the height of the progress bar
-            isLabelVisible={true} // Display percentage label
+          //  isLabelVisible={true} // Display percentage label
           />
         </div>
       </div>
