@@ -29,6 +29,7 @@ i18n.use(initReactI18next).init({
         location: "The Location",
         categoryList: "Category List",
         orderSuccess: "Order placed Successfully",
+        nextBtn: "Next Slide",
       },
     },
     he: {
@@ -54,6 +55,7 @@ i18n.use(initReactI18next).init({
         location: "המיקום",
         categoryList: "רשימת קטגוריות",
         orderSuccess: "ההזמנה בוצעה בהצלחה",
+        nextBtn: "השקופית הבאה",
       },
     },
     ru: {
@@ -79,6 +81,7 @@ i18n.use(initReactI18next).init({
         location: "Местонахождение",
         categoryList: "Список категорий",
         orderSuccess: "Заказ успешно размещен",
+        nextBtn: "Следующий слайд",
       },
     },
   },

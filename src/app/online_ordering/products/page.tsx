@@ -206,7 +206,7 @@ const SwiperSlider: React.FC<SwiperSliderProps> = ({ params }) => {
                         {!isLastSlide && (
                           <div className="bg-[#2f52a0] p-4 mt-8 rounded-xl">
                             <button className={`w-full text-white text-center rounded-xl textShadow  ${lang ? "rtl" : ""}`} onClick={() => swiper.slideNext()}>
-                              {t("Next Slide")}
+                              {t("nextBtn")}
                             </button>
                           </div>
                         )}
