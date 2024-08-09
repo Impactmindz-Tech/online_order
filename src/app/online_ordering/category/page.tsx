@@ -64,7 +64,7 @@ const Category: React.FC = () => {
   };
 
   const getMealTypeFromId = (id: string): string => {
-    const mealType = categories.find((cat) => cat.id === id)?.Name.toLowerCase();
+    const mealType = categories?.find((cat) => cat?.id === id)?.Name?.toLowerCase();
     return mealType || id;
   };
 
