@@ -130,9 +130,9 @@ const Category: React.FC = () => {
               </Link>
             </div>
             <div className="flex  items-center justify-between">
-              <Link href={"/online_ordering"}>
-                <button className={`text-[#fff] bg-[#ded4c4] p-3 rounded-xl font-bold  ${lang ? "rtl" : ""}`}> {t("Back")}</button>
-              </Link>
+              <a href={"/online_ordering"} className={`text-[#fff] bg-[#ded4c4] p-3 rounded-xl font-bold  ${lang ? "rtl" : ""}`}>
+                 {t("Back")}
+              </a>
               <div className={`flex-1  font-bold text-white text-xl ${lang ? "rtl" : "text-center"}`}>
                 <h1>{t("categoryList")}</h1>
               </div>
