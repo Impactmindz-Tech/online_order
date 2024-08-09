@@ -128,7 +128,12 @@ const Category: React.FC = () => {
                 <Image width={200} height={100} src={onloadImg} alt="onload img" />
               </Link>
             </div>
-           
+            <div className="flex  items-center justify-between">
+              
+              <div className={`flex-1  font-bold text-white text-xl ${lang ? "rtl" : "text-center"}`}>
+                <h1>{t("categoryList")}</h1>
+              </div>
+            </div>
             {categories?.map((item) => {
               const mealType = item.id;
               const isComplete = isCategoryComplete(mealType);
