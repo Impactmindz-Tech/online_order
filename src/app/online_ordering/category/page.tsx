@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Image from "next/legacy/image";
+import Link from "next/link";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/app/config/firebase";
 import CategoryModels from "@/app/modal/CategoryModels";
@@ -13,7 +14,7 @@ import { useTranslation } from "react-i18next";
 import { getFromLocalStorage, setInLocalStorage } from "@/app/utills/LocalStorageUtills";
 import { useRouter } from "next/navigation";
 import onloadImg from "../../../assests/white_logo.png";
-import Link from "next/link";
+
 import AOS from "aos";
 import "aos/dist/aos.css";
 
