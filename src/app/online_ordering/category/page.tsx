@@ -120,41 +120,7 @@ const Category: React.FC = () => {
     <>
       {loading && <Loading />}
       <section className="main-bg">
-        <div className="page_width h-full">
-          <div className="h-full">
-            <div className="flex justify-center h-full p-10">
-              <Link href={"/"}>
-                <Image width={200} height={100} src={onloadImg} alt="onload img" />
-              </Link>
-            </div>
-            <div className="flex items-center justify-between">
-              <Link href={"/online_ordering"} className={` ${lang ? "flex justify-end" : ""}`}>
-                <button className={`text-[#fff] bg-[#ded4c4] p-3 rounded-xl font-bold ${lang ? "rtl" : ""}`}>{t("Back")}</button>
-              </Link>
-              <div className={`flex-1 font-bold text-white text-xl ${lang ? "rtl" : "text-center"}`}>
-                <h1>{t("categoryList")}</h1>
-              </div>
-            </div>
-            {categories?.map((item) => {
-              const mealType = item.id;
-              const isComplete = isCategoryComplete(mealType);
-              return (
-                <div className="flex flex-col gap-5 py-5" key={item?.id} data-aos="flip-right">
-                  <div className="w-full h-[185px] relative cursor-pointer" onClick={() => handleNavigate(item)}>
-                    <div className={`bg-[#00000083] absolute top-0 w-full h-full left-0 rounded-lg productShadow`}></div>
-                    <Image className="object-cover w-full h-full rounded-lg" src={item?.ImageUrl} alt="category image" layout="fill" priority />
-                    <p className={`absolute top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 text-xl text-white font-bold ${lang ? "rtl" : ""} textShadows`}>{item?.Name}</p>
-                    {isComplete && (
-                      <div className="absolute top-0 left-0 w-full h-full bg-[#9efeb98a] flex items-center justify-center z-10 rounded-lg">
-                        <CheckIcon style={{ fontSize: 80, color: "white" }} />
-                      </div>
-                    )}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
+        
       </section>
     </>
   );
