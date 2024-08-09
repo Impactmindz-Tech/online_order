@@ -123,16 +123,12 @@ const Category: React.FC = () => {
         <div className="page_width h-full">
           <div className="h-full">
             <div className="flex justify-center h-full p-10">
-             
-            </div>
-            <div className="flex  items-center justify-between">
-              <Link href={"/online_ordering"} className={` ${lang ? "flex justify-end" : ""}`}>
-                <button className={`text-[#fff] bg-[#ded4c4] p-3 rounded-xl font-bold ${lang ? "rtl" : ""}`}>{t("Back")}</button>
+              <Link href={"/"}>
+                {" "}
+                <Image width={200} height={100} src={onloadImg} alt="onload img" />
               </Link>
-              <div className={`flex-1  font-bold text-white text-xl ${lang ? "rtl" : "text-center"}`}>
-                <h1>{t("categoryList")}</h1>
-              </div>
             </div>
+           
             {categories?.map((item) => {
               const mealType = item.id;
               const isComplete = isCategoryComplete(mealType);
