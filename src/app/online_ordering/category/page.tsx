@@ -129,7 +129,9 @@ const Category: React.FC = () => {
               </Link>
             </div>
             <div className="flex  items-center justify-between">
-              
+              <Link href={"/online_ordering"} className={` ${lang ? "flex justify-end" : ""}`}>
+                r
+              </Link>
               <div className={`flex-1  font-bold text-white text-xl ${lang ? "rtl" : "text-center"}`}>
                 <h1>{t("categoryList")}</h1>
               </div>
