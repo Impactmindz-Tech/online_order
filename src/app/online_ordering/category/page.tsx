@@ -80,13 +80,13 @@ const Category: React.FC = () => {
     const categoryProducts = products?.filter((product) => mealTypeMapping[product.meal.Name.toLowerCase()] === englishMealType);
 
     if (categoryProducts?.length === 0) {
-      return selectedProducts.length > 0;
+      return selectedProducts?.length > 0;
     }
 
     const categories = Array.from(new Set(categoryProducts.map((product) => product.category)));
     const selectedCategories = Array.from(new Set(selectedProducts.map((product) => product.category)));
 
-    const isComplete = categories.length > 0 && categories.every((category) => selectedCategories.includes(category));
+    const isComplete = categories?.length > 0 && categories.every((category) => selectedCategories.includes(category));
 
     return isComplete;
   };
