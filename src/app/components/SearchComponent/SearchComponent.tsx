@@ -86,7 +86,7 @@ const SearchComponent: React.FC<SearchComponentProps> = ({ selectPosition, setSe
   return (
     <>
       <OutlinedInput value={searchText} placeholder={t("AutoComplete")} className={`w-[96%] m-auto ${lang ? "rtl" : ""}`} onChange={(e) => setSearchText(e.target.value)} ref={inputRef} />
-      {searchText && listPlace.length > 0 && (
+      {searchText && listPlace?.length > 0 && (
         <List ref={listRef}>
           {listPlace.map((item) => (
             <ListItem

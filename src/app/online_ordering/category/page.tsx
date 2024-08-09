@@ -74,7 +74,7 @@ const Category: React.FC = () => {
     const selectedProducts = cart?.[englishMealType as keyof typeof cart] || [];
 
     if (products?.length === 0) {
-      return selectedProducts.length > 0;
+      return selectedProducts?.length > 0;
     }
 
     const categoryProducts = products?.filter((product) => mealTypeMapping[product.meal.Name.toLowerCase()] === englishMealType);

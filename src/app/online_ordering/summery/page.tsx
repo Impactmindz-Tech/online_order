@@ -115,7 +115,7 @@ const ViewMeals: React.FC = () => {
           </Link>
         </div>
 
-        {mealData && Object.keys(mealData).length > 0 ? (
+        {mealData && Object.keys(mealData)?.length > 0 ? (
           Object.keys(mealData).map((mealType) => (
             <div key={mealType} className={`pt-5 capitalize font-semibold text-black ${lang ? "rtl" : ""}`}>
               {mealType === "breakfast" && <h1 className=" text-xl">{langText === '"ru"' ? "Завтрак" : langText === '"he"' ? "ארוחת בוקר" : "Breakfast"}</h1>}

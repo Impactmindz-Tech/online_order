@@ -137,7 +137,7 @@ const SwiperSlider: React.FC<SwiperSliderProps> = ({ params }) => {
 
   const handleSlideChange = () => {
     if (swiper) {
-      setIsLastSlide(swiper.activeIndex === swiper.slides.length - 1);
+      setIsLastSlide(swiper.activeIndex === swiper.slides?.length - 1);
     }
   };
 
