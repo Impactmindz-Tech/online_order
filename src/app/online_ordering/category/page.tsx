@@ -21,11 +21,11 @@ const Category: React.FC = () => {
   const router = useRouter();
   const { t, i18n } = useTranslation();
   const [categories, setCategories] = useState<CategoryModels[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   const cart = useSelector((state: RootState) => state.Product.cart);
   const products = useSelector((state: RootState) => state.Product.products);
-  const savedLanguage = typeof window !== "undefined" ? getFromLocalStorage("lang") || "en" : "en";
-  const [lang, setLang] = useState<boolean>(false);
+  const savedLanguage = getFromLocalStorage("lang") || "en";
+  const [lang, setLang] = useState(false);
 
   const mealTypeMapping: { [key: string]: string } = {
     "ארוחת בוקר": "breakfast",
@@ -57,7 +57,7 @@ const Category: React.FC = () => {
       }));
       setCategories(translatedData);
     } catch (error) {
-      console.error("Error fetching categories:", error);
+      console.error(error);
     } finally {
       setLoading(false);
     }
@@ -104,12 +104,12 @@ const Category: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (savedLanguage === "he") {
+    if (getFromLocalStorage("lang") === "he") {
       setLang(true);
     } else {
       setLang(false);
     }
-  }, [savedLanguage]);
+  }, [getFromLocalStorage("lang")]);
 
   const handleNavigate = (item: CategoryModels) => {
     setInLocalStorage("categoryProduct", item?.Name);
@@ -120,7 +120,25 @@ const Category: React.FC = () => {
     <>
       {loading && <Loading />}
       <section className="main-bg">
-        
+        <div className="page_width h-full">
+          <div className="h-full">
+            <div className="flex justify-center h-full p-10">
+              <Link href={"/"}>
+                {" "}
+                <Image width={200} height={100} src={onloadImg} alt="onload img" />
+              </Link>
+            </div>
+            <div className="flex  items-center justify-between">
+              <Link href={"/online_ordering"} className={` ${lang ? "flex justify-end" : ""}`}>
+                <button className={`text-[#fff] bg-[#ded4c4] p-3 rounded-xl font-bold ${lang ? "rtl" : ""}`}>{t("Back")}</button>
+              </Link>
+              <div className={`flex-1  font-bold text-white text-xl ${lang ? "rtl" : "text-center"}`}>
+                <h1>{t("categoryList")}</h1>
+              </div>
+            </div>
+            
+          </div>
+        </div>
       </section>
     </>
   );
